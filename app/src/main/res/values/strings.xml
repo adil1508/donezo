@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Donezo</string>
+    <string name="initial_onboarding_title">Add Todos</string>
+    <string name="initial_onboarding_subtitle">Stay organized</string>
+    <string name="middle_onboarding_title">Do Todos</string>
+    <string name="middle_onboarding_subtitle">Stay on top of things</string>
+    <string name="onboarding_button">Let\'s go</string>
+    <string name="final_onboarding_title">Donezo</string>
+    <string name="final_onboarding_subtitle">No ads. Always free</string>
 </resources>
