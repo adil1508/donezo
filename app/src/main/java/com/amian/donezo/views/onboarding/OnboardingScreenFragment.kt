@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.amian.donezo.databinding.OnboardingFinalScreenBinding
 import com.amian.donezo.databinding.OnboardingMiddleScreenBinding
 import com.amian.donezo.databinding.OnboardingStartScreenBinding
@@ -30,6 +31,7 @@ class OnboardingScreenFragment : Fragment() {
 				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)){
 
 					button.setOnClickListener {
+						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment())
 					}
 
 					root
