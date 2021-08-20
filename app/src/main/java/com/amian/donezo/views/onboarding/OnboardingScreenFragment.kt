@@ -17,6 +17,10 @@ class OnboardingScreenFragment : Fragment() {
 		requireArguments().getInt(POSITION_KEY)
 	}
 
+	private val parent by lazy {
+		parentFragment as OnboardingFragment
+	}
+
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -25,15 +29,29 @@ class OnboardingScreenFragment : Fragment() {
 	): View? {
 
 		return when (position) {
-			0 -> OnboardingStartScreenBinding.inflate(inflater, container, false).root
-			1 -> OnboardingMiddleScreenBinding.inflate(inflater, container, false).root
+			0 -> with(OnboardingStartScreenBinding.inflate(inflater, container, false)){
+				rightArrow.setOnClickListener {
+					parent.setCurrentItem(1)
+				}
+				root
+			}
+			1 -> with(OnboardingMiddleScreenBinding.inflate(inflater, container, false)){
+				rightArrow.setOnClickListener {
+					parent.setCurrentItem(2)
+				}
+				leftArrow.setOnClickListener {
+					parent.setCurrentItem(0)
+				}
+				root
+			}
 			2 -> {
 				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)){
-
+					leftArrow.setOnClickListener {
+						parent.setCurrentItem(1)
+					}
 					button.setOnClickListener {
 						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment())
 					}
-
 					root
 				}}
 			else -> super.onCreateView(inflater, container, savedInstanceState)

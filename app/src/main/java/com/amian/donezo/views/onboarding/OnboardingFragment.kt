@@ -34,6 +34,11 @@ class OnboardingFragment : Fragment() {
 		super.onDestroy()
 		_binding = null
 	}
+
+	fun setCurrentItem(position: Int) {
+		binding.pager.currentItem = position
+	}
+
 }
 
 class OnboardingPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
