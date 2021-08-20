@@ -35,8 +35,14 @@ class OnboardingFragment : Fragment() {
 		_binding = null
 	}
 
-	fun setCurrentItem(position: Int) {
-		binding.pager.currentItem = position
+	fun setCurrentItem(page: Pages) {
+		binding.pager.currentItem = page.ordinal
+	}
+
+	enum class Pages {
+		StartPage,
+		MiddlePage,
+		FinalPage
 	}
 
 }
