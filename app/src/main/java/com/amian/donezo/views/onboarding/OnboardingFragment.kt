@@ -51,5 +51,5 @@ class OnboardingPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment
 
 	override fun getItemCount() = 3
 
-	override fun createFragment(position: Int) = OnboardingScreenFragment.newInstance(position)
+	override fun createFragment(page: Int) = OnboardingScreenFragment.newInstance(page)
 }

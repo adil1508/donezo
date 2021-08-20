@@ -10,11 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.amian.donezo.databinding.OnboardingFinalScreenBinding
 import com.amian.donezo.databinding.OnboardingMiddleScreenBinding
 import com.amian.donezo.databinding.OnboardingStartScreenBinding
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.StartPage
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.MiddlePage
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.FinalPage
 
 class OnboardingScreenFragment : Fragment() {
 
-	private val position by lazy {
-		requireArguments().getInt(POSITION_KEY)
+	private val page by lazy {
+		requireArguments().getInt(page_key)
 	}
 
 	private val parent by lazy {
@@ -28,26 +31,26 @@ class OnboardingScreenFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 
-		return when (position) {
-			0 -> with(OnboardingStartScreenBinding.inflate(inflater, container, false)){
+		return when (page) {
+			StartPage.ordinal -> with(OnboardingStartScreenBinding.inflate(inflater, container, false)){
 				rightArrow.setOnClickListener {
-					parent.setCurrentItem(page = OnboardingFragment.Pages.MiddlePage)
+					parent.setCurrentItem(page = MiddlePage)
 				}
 				root
 			}
-			1 -> with(OnboardingMiddleScreenBinding.inflate(inflater, container, false)){
+			MiddlePage.ordinal -> with(OnboardingMiddleScreenBinding.inflate(inflater, container, false)){
 				rightArrow.setOnClickListener {
-					parent.setCurrentItem(OnboardingFragment.Pages.FinalPage)
+					parent.setCurrentItem(FinalPage)
 				}
 				leftArrow.setOnClickListener {
-					parent.setCurrentItem(OnboardingFragment.Pages.StartPage)
+					parent.setCurrentItem(StartPage)
 				}
 				root
 			}
-			2 -> {
+			FinalPage.ordinal -> {
 				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)){
 					leftArrow.setOnClickListener {
-						parent.setCurrentItem(OnboardingFragment.Pages.MiddlePage)
+						parent.setCurrentItem(MiddlePage)
 					}
 					button.setOnClickListener {
 						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment())
@@ -59,11 +62,11 @@ class OnboardingScreenFragment : Fragment() {
 	}
 
 	companion object {
-		private const val POSITION_KEY = "position"
+		private const val page_key = "page"
 
 		fun newInstance(position: Int) = OnboardingScreenFragment().apply {
 			arguments = bundleOf(
-				POSITION_KEY to position
+				page_key to position
 			)
 		}
 	}
