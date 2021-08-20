@@ -31,23 +31,23 @@ class OnboardingScreenFragment : Fragment() {
 		return when (position) {
 			0 -> with(OnboardingStartScreenBinding.inflate(inflater, container, false)){
 				rightArrow.setOnClickListener {
-					parent.setCurrentItem(1)
+					parent.setCurrentItem(page = OnboardingFragment.Pages.MiddlePage)
 				}
 				root
 			}
 			1 -> with(OnboardingMiddleScreenBinding.inflate(inflater, container, false)){
 				rightArrow.setOnClickListener {
-					parent.setCurrentItem(2)
+					parent.setCurrentItem(OnboardingFragment.Pages.FinalPage)
 				}
 				leftArrow.setOnClickListener {
-					parent.setCurrentItem(0)
+					parent.setCurrentItem(OnboardingFragment.Pages.StartPage)
 				}
 				root
 			}
 			2 -> {
 				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)){
 					leftArrow.setOnClickListener {
-						parent.setCurrentItem(1)
+						parent.setCurrentItem(OnboardingFragment.Pages.MiddlePage)
 					}
 					button.setOnClickListener {
 						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment())
