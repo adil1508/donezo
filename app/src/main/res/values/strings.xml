@@ -17,4 +17,9 @@
     <string name="login_bottom_text">No ads. Always free.</string>
     <string name="login_content_desc">login logo</string>
     <string name="forgot_password">forgot password?</string>
+    <string name="signup">Signup</string>
+    <string name="signup_subtitle">almost there</string>
+    <string name="name">Name</string>
+    <string name="re_enter_password">Re-enter password</string>
+    <string name="register">register</string>
 </resources>
