@@ -4,23 +4,22 @@
     android:id="@+id/donezo_navigation_graph"
     app:startDestination="@id/authentication_navigation">
 
-    <navigation android:id="@+id/authentication_navigation"
+    <navigation
+        android:id="@+id/authentication_navigation"
         app:startDestination="@id/onboardingFragment">
         <fragment
             android:id="@+id/onboardingFragment"
             android:name="com.amian.donezo.views.onboarding.OnboardingFragment"
-            android:label="OnboardingFragment">
-            <action
-                android:id="@+id/action_onboardingFragment_to_homeFragment"
-                app:destination="@id/application_navigation"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        </fragment>
+            android:label="OnboardingFragment" />
         <action
-            android:id="@+id/action_global_application_navigation"
-            app:destination="@id/application_navigation" />
+            android:id="@+id/action_authenticated"
+            app:destination="@id/application_navigation"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/authentication_navigation"
+            app:popUpToInclusive="true" />
     </navigation>
 
     <navigation
