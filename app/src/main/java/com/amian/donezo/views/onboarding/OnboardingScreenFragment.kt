@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.OnboardingFinalScreenBinding
 import com.amian.donezo.databinding.OnboardingMiddleScreenBinding
 import com.amian.donezo.databinding.OnboardingStartScreenBinding
-import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.*
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.FinalPage
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.MiddlePage
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.StartPage
 
 class OnboardingScreenFragment : Fragment() {
 
@@ -31,13 +32,25 @@ class OnboardingScreenFragment : Fragment() {
 	): View? {
 
 		return when (page) {
-			StartPage.ordinal -> with(OnboardingStartScreenBinding.inflate(inflater, container, false)){
+			StartPage.ordinal -> with(
+				OnboardingStartScreenBinding.inflate(
+					inflater,
+					container,
+					false
+				)
+			) {
 				rightArrow.setOnClickListener {
 					parent.setCurrentItem(page = MiddlePage)
 				}
 				root
 			}
-			MiddlePage.ordinal -> with(OnboardingMiddleScreenBinding.inflate(inflater, container, false)){
+			MiddlePage.ordinal -> with(
+				OnboardingMiddleScreenBinding.inflate(
+					inflater,
+					container,
+					false
+				)
+			) {
 				rightArrow.setOnClickListener {
 					parent.setCurrentItem(FinalPage)
 				}
@@ -47,7 +60,7 @@ class OnboardingScreenFragment : Fragment() {
 				root
 			}
 			FinalPage.ordinal -> {
-				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)){
+				with(OnboardingFinalScreenBinding.inflate(inflater, container, false)) {
 					leftArrow.setOnClickListener {
 						parent.setCurrentItem(MiddlePage)
 					}
@@ -55,7 +68,8 @@ class OnboardingScreenFragment : Fragment() {
 						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
 					}
 					root
-				}}
+				}
+			}
 			else -> super.onCreateView(inflater, container, savedInstanceState)
 		}
 	}

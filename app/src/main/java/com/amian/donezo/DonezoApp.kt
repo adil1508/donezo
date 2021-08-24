@@ -5,7 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class DonezoApp: Application() {
+class DonezoApp : Application() {
 
 	override fun onCreate() {
 		super.onCreate()
