@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_title"
-            android:textColor="#040404"
+            android:textColor="@color/black_700"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,8 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:hint="@string/email"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_email"
+        app:endIconMode="custom"
         app:layout_constraintTop_toBottomOf="@+id/titlebar">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="forgot password?"
+        android:text="@string/forgot_password"
         android:textColor="#BF040404"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -149,7 +149,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:textColor="#040404"
+        android:textColor="@color/black_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
