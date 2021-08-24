@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.amian.donezo.databinding.FragmentHomeBinding
 
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
 	private var _binding: FragmentHomeBinding? = null
 	val binding
