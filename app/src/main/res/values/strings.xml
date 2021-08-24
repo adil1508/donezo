@@ -7,4 +7,13 @@
     <string name="onboarding_button">Let\'s go</string>
     <string name="final_onboarding_title">Donezo</string>
     <string name="final_onboarding_subtitle">Simple. Clean</string>
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">you know what to do</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or">Or</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_bottom_text">No ads. Always free.</string>
+    <string name="login_content_desc">login logo</string>
 </resources>
