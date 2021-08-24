@@ -11,7 +11,7 @@
         android:name=".DonezoApp"
         android:theme="@style/Theme.Donezo">
         <activity
-            android:name=".MainActivity"
+            android:name=".DonezoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
