@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.OnboardingFinalScreenBinding
 import com.amian.donezo.databinding.OnboardingMiddleScreenBinding
 import com.amian.donezo.databinding.OnboardingStartScreenBinding
-import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.StartPage
-import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.MiddlePage
-import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.FinalPage
+import com.amian.donezo.views.onboarding.OnboardingFragment.Pages.*
 
 class OnboardingScreenFragment : Fragment() {
 
@@ -53,7 +52,7 @@ class OnboardingScreenFragment : Fragment() {
 						parent.setCurrentItem(MiddlePage)
 					}
 					button.setOnClickListener {
-						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment())
+						findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
 					}
 					root
 				}}
