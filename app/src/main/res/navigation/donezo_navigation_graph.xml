@@ -10,7 +10,11 @@
         <fragment
             android:id="@+id/onboardingFragment"
             android:name="com.amian.donezo.views.onboarding.OnboardingFragment"
-            android:label="OnboardingFragment" />
+            android:label="OnboardingFragment" >
+            <action
+                android:id="@+id/action_onboardingFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+        </fragment>
         <action
             android:id="@+id/action_authenticated"
             app:destination="@id/application_navigation"
@@ -20,6 +24,10 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/authentication_navigation"
             app:popUpToInclusive="true" />
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.amian.donezo.views.authentication.LoginFragment"
+            android:label="LoginFragment" />
     </navigation>
 
     <navigation

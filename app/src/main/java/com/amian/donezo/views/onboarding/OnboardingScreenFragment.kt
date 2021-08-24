@@ -52,7 +52,7 @@ class OnboardingScreenFragment : Fragment() {
 						parent.setCurrentItem(MiddlePage)
 					}
 					button.setOnClickListener {
-						findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
+						findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
 					}
 					root
 				}}
