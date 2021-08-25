@@ -6,6 +6,7 @@ import com.amian.donezo.database.DonezoDatabase
 import com.amian.donezo.database.dao.UserDao
 import com.amian.donezo.repositories.UserRepoImpl
 import com.amian.donezo.repositories.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,12 @@ class DonezoProviderModule {
 		Room.databaseBuilder(context, DonezoDatabase::class.java, "DonezoDatabase").build()
 
 	@Provides
+	@Singleton
 	fun providesUserDao(db: DonezoDatabase): UserDao = db.userDao()
+
+	@Provides
+	@Singleton
+	fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
 }
 
