@@ -23,6 +23,6 @@ abstract class UserDao {
 	abstract suspend fun updateUser(user: User)
 
 	@Query("SELECT * FROM $USERS_TABLE LIMIT 1")
-	abstract fun getCurrentUser(): Flow<User>
+	abstract fun getCurrentUser(): Flow<User?>
 
 }
