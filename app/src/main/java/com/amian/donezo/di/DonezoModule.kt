@@ -7,6 +7,7 @@ import com.amian.donezo.database.dao.UserDao
 import com.amian.donezo.repositories.UserRepoImpl
 import com.amian.donezo.repositories.UserRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,10 @@ class DonezoProviderModule {
 	@Provides
 	@Singleton
 	fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+	@Provides
+	@Singleton
+	fun providesFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
 }
 
