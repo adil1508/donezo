@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DonezoModule {
+class DonezoProviderModule {
 
 	@Provides
 	@Singleton
@@ -23,4 +23,10 @@ object DonezoModule {
 	@Provides
 	fun providesUserDao(db: DonezoDatabase): UserDao = db.userDao()
 
+}
+
+@Module
+@InstallIn(Singleton::class)
+class DonezoBindingModule {
+	// For Bindings
 }
