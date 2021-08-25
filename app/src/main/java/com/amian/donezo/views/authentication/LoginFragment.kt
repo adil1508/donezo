@@ -30,7 +30,10 @@ class LoginFragment : Fragment() {
 		_binding = FragmentLoginBinding.inflate(inflater, container, false)
 
 		binding.loginButton.setOnClickListener {
-			viewModel.login("test", "password")
+			viewModel.login(
+				email = binding.emailInput.editText?.text.toString(),
+				password = binding.passwordInput.editText?.text.toString()
+			)
 		}
 
 		viewModel.authenticated.observe(requireActivity(), {
