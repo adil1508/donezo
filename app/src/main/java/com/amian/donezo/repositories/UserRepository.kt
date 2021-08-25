@@ -7,5 +7,5 @@ interface UserRepository {
 
 	suspend fun setUser(name: String, email: String)
 
-	fun observeUser(): Flow<User>
+	fun observeUser(): Flow<User?>
 }

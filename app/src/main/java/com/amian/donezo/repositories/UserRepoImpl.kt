@@ -10,5 +10,5 @@ class UserRepoImpl @Inject constructor(private val userDao: UserDao) : UserRepos
 	override suspend fun setUser(name: String, email: String) =
 		userDao.insertUser(User(name = name, email = email))
 
-	override fun observeUser(): Flow<User> = userDao.getCurrentUser()
+	override fun observeUser(): Flow<User?> = userDao.getCurrentUser()
 }
