@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.FragmentLoginBinding
 import com.amian.donezo.viewmodels.authentication.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,9 +30,12 @@ class LoginFragment : Fragment() {
 		_binding = FragmentLoginBinding.inflate(inflater, container, false)
 
 		binding.loginButton.setOnClickListener {
-			viewModel.test()
-//			findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
+			viewModel.login("test", "password")
 		}
+
+		viewModel.authenticated.observe(requireActivity(), {
+			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
+		})
 
 		return binding.root
 	}
