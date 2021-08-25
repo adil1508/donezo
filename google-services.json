@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "266919380133",
+    "project_id": "donezo-amian",
+    "storage_bucket": "donezo-amian.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266919380133:android:c164098496e59fa51af94c",
+        "android_client_info": {
+          "package_name": "com.amian.donezo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266919380133-lk7knqbprrfqtisvhn5qfrdjhbci2pag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXmosNj4jhiYMcQdrJxLDwv0nL63UhHLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266919380133-lk7knqbprrfqtisvhn5qfrdjhbci2pag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
