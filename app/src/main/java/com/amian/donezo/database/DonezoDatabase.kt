@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.amian.donezo.database.dao.UserDao
 import com.amian.donezo.database.entities.User
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 1, exportSchema = true)
 abstract class DonezoDatabase: RoomDatabase() {
 	abstract fun userDao(): UserDao
 }
