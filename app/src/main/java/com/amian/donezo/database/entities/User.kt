@@ -6,12 +6,9 @@ import com.amian.donezo.database.entities.User.Companion.USERS_TABLE
 
 @Entity(tableName = USERS_TABLE)
 data class User(
-	@PrimaryKey(autoGenerate = true) val id: Int,
-	val name: String,
-	val email: String
+	@PrimaryKey val email: String,
+	val name: String
 ) {
-	constructor(name: String, email: String) : this(0, name, email)
-
 	companion object {
 		const val USERS_TABLE = "Users"
 	}
