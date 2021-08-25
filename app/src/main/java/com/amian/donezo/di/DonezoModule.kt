@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.amian.donezo.database.DonezoDatabase
 import com.amian.donezo.database.dao.UserDao
+import com.amian.donezo.repositories.UserRepoImpl
+import com.amian.donezo.repositories.UserRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +30,8 @@ class DonezoProviderModule {
 
 @Module
 @InstallIn(Singleton::class)
-class DonezoBindingModule {
-	// For Bindings
+abstract class DonezoBindingModule {
+
+	@Binds
+	abstract fun bindsUserRepoImpl(userRepoImpl: UserRepoImpl): UserRepository
 }
