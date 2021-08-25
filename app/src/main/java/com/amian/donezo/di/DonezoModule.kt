@@ -29,7 +29,7 @@ class DonezoProviderModule {
 }
 
 @Module
-@InstallIn(Singleton::class)
+@InstallIn(SingletonComponent::class)
 abstract class DonezoBindingModule {
 
 	@Binds
