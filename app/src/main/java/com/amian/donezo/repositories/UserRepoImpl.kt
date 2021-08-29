@@ -26,7 +26,7 @@ class UserRepoImpl @Inject constructor(
 		firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 			if (it.isSuccessful) {
 				GlobalScope.launch(Dispatchers.IO) {
-					getAndWriteUserInfo(email = email)
+					getUserInfoFromFirestore(email = email)
 				}
 			} else {
 				Timber.e("Could not login user!")
@@ -34,19 +34,16 @@ class UserRepoImpl @Inject constructor(
 		}
 	}
 
-	private suspend fun getAndWriteUserInfo(email: String) {
+	private suspend fun getUserInfoFromFirestore(email: String) {
 		firestore.collection("users").whereEqualTo("email", email).limit(1).get()
 			.addOnCompleteListener { task ->
 				if (task.isSuccessful) {
 					// write to local db
 					task.result?.documents?.let {
 						val document = it[0]
-						val test = document.getString("name")
-
 						GlobalScope.launch(Dispatchers.IO) {
 							setUser(email = email, name = document.getString("name")!!)
 						}
-
 					}
 				} else {
 					Timber.e("Failed to retrieve user info from Firestore!")
@@ -58,7 +55,7 @@ class UserRepoImpl @Inject constructor(
 		firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
 			if (it.isSuccessful) {
 				GlobalScope.launch(Dispatchers.IO) {
-					writeUserInfo(email = email, name = name)
+					setUserInfoInFirestore(email = email, name = name)
 				}
 			} else {
 				Timber.e("Could not sign up user!")
@@ -66,7 +63,7 @@ class UserRepoImpl @Inject constructor(
 		}
 	}
 
-	private suspend fun writeUserInfo(email: String, name: String) {
+	private suspend fun setUserInfoInFirestore(email: String, name: String) {
 		firestore.collection("users").add(hashMapOf("name" to name, "email" to email))
 			.addOnCompleteListener {
 				if (it.isSuccessful) {
