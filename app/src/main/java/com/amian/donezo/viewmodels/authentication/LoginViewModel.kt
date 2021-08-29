@@ -20,8 +20,8 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 
 	init {
 		viewModelScope.launch {
-			currentUser.distinctUntilChanged().filterNotNull().collect {
-				authenticated.value = true
+			currentUser.distinctUntilChanged().collect {
+				authenticated.value = it != null
 			}
 		}
 	}
