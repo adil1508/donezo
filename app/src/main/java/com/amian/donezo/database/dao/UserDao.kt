@@ -26,6 +26,6 @@ interface UserDao {
 	fun getCurrentUser(): Flow<User?>
 
 	@Query("DELETE FROM $USERS_TABLE")
-	suspend fun deleteCurrentUser()
+	suspend fun deleteUser()
 
 }
