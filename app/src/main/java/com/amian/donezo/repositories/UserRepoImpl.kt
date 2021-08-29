@@ -35,22 +35,23 @@ class UserRepoImpl @Inject constructor(
 	}
 
 	private suspend fun getAndWriteUserInfo(email: String) {
-		firestore.collection("users").whereEqualTo("email", email).limit(1).get().addOnCompleteListener { task ->
-			if (task.isSuccessful){
-				// write to local db
-				task.result?.documents?.let {
-					val document = it[0]
-					val test = document.getString("name")
+		firestore.collection("users").whereEqualTo("email", email).limit(1).get()
+			.addOnCompleteListener { task ->
+				if (task.isSuccessful) {
+					// write to local db
+					task.result?.documents?.let {
+						val document = it[0]
+						val test = document.getString("name")
 
-					GlobalScope.launch(Dispatchers.IO) {
-						setUser(email = email, name = document.getString("name")!!)
+						GlobalScope.launch(Dispatchers.IO) {
+							setUser(email = email, name = document.getString("name")!!)
+						}
+
 					}
-
+				} else {
+					Timber.e("Failed to retrieve user info from Firestore!")
 				}
-			} else {
-				Timber.e("Failed to retrieve user info from Firestore!")
 			}
-		}
 	}
 
 	override suspend fun signup(name: String, email: String, password: String) {
