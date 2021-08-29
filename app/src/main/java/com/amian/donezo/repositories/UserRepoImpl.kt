@@ -17,9 +17,6 @@ class UserRepoImpl @Inject constructor(
 	private val firestore: FirebaseFirestore
 ) : UserRepository {
 
-	private suspend fun setUser(name: String, email: String) =
-		userDao.insertUser(User(email = email, name = name))
-
 	override fun observeUser(): Flow<User?> = userDao.getCurrentUser()
 
 	override suspend fun login(email: String, password: String) {
@@ -33,6 +30,21 @@ class UserRepoImpl @Inject constructor(
 			}
 		}
 	}
+
+	override suspend fun signup(name: String, email: String, password: String) {
+		firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+			if (it.isSuccessful) {
+				GlobalScope.launch(Dispatchers.IO) {
+					setUserInfoInFirestore(email = email, name = name)
+				}
+			} else {
+				Timber.e("Could not sign up user!")
+			}
+		}
+	}
+
+	private suspend fun setUser(name: String, email: String) =
+		userDao.insertUser(User(email = email, name = name))
 
 	private suspend fun getUserInfoFromFirestore(email: String) {
 		firestore.collection("users").whereEqualTo("email", email).limit(1).get()
@@ -49,18 +61,6 @@ class UserRepoImpl @Inject constructor(
 					Timber.e("Failed to retrieve user info from Firestore!")
 				}
 			}
-	}
-
-	override suspend fun signup(name: String, email: String, password: String) {
-		firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-			if (it.isSuccessful) {
-				GlobalScope.launch(Dispatchers.IO) {
-					setUserInfoInFirestore(email = email, name = name)
-				}
-			} else {
-				Timber.e("Could not sign up user!")
-			}
-		}
 	}
 
 	private suspend fun setUserInfoInFirestore(email: String, name: String) {
