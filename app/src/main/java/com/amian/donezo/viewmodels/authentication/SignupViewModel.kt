@@ -22,7 +22,7 @@ class SignupViewModel @Inject constructor(
 	init {
 		viewModelScope.launch {
 			currentUser.distinctUntilChanged().collect {
-				if (it != null) authenticated.value = true
+				authenticated.value = it != null
 			}
 		}
 	}
