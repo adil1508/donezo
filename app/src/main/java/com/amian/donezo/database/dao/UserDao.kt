@@ -11,18 +11,18 @@ import com.amian.donezo.database.entities.User.Companion.USERS_TABLE
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class UserDao {
+interface UserDao {
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	abstract suspend fun insertUser(user: User)
+	suspend fun insertUser(user: User)
 
 	@Delete
-	abstract suspend fun deleteUser(user: User)
+	suspend fun deleteUser(user: User)
 
 	@Update
-	abstract suspend fun updateUser(user: User)
+	suspend fun updateUser(user: User)
 
 	@Query("SELECT * FROM $USERS_TABLE LIMIT 1")
-	abstract fun getCurrentUser(): Flow<User?>
+	fun getCurrentUser(): Flow<User?>
 
 }
