@@ -7,6 +7,7 @@ import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +20,8 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 
 	init {
 		viewModelScope.launch {
-			currentUser.distinctUntilChanged().collect {
-				if (it != null) authenticated.value = true
+			currentUser.distinctUntilChanged().filterNotNull().collect {
+				authenticated.value = true
 			}
 		}
 	}
