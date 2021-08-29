@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/donezo_navigation_graph"
-    app:startDestination="@id/authentication_navigation">
+    app:startDestination="@id/application_navigation">
 
     <navigation
         android:id="@+id/authentication_navigation"
@@ -53,6 +53,15 @@
             android:id="@+id/homeFragment"
             android:name="com.amian.donezo.views.HomeFragment"
             android:label="HomeFragment" />
+        <action
+            android:id="@+id/action_unauthenticated"
+            app:destination="@id/authentication_navigation"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/action_unauthenticated"
+            app:popUpToInclusive="true"/>
     </navigation>
 
 </navigation>
