@@ -19,6 +19,8 @@ class UserRepoImpl @Inject constructor(
 
 	override fun observeUser(): Flow<User?> = userDao.getCurrentUser()
 
+	override suspend fun clearUser() = userDao.deleteCurrentUser()
+
 	override suspend fun login(email: String, password: String) {
 		firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 			if (it.isSuccessful) {
