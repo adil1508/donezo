@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
 			)
 		}
 
-		viewModel.authenticated.observe(requireActivity(), {
+		viewModel.authenticated.observe(viewLifecycleOwner, {
 			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
 		})
 
