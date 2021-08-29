@@ -36,6 +36,14 @@ class LoginFragment : Fragment() {
 			)
 		}
 
+		binding.forgotPassword.setOnClickListener {
+			findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment())
+		}
+
+		binding.signupButton.setOnClickListener {
+			findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
+		}
+
 		viewModel.authenticated.observe(viewLifecycleOwner, {
 			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
 		})
