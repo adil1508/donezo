@@ -7,6 +7,8 @@ interface UserRepository {
 
 	fun observeUser(): Flow<User?>
 
+	suspend fun clearUser()
+
 	suspend fun signup(name: String, email: String, password: String)
 
 	suspend fun login(email: String, password: String)
