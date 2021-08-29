@@ -27,9 +27,8 @@ class SignupViewModel @Inject constructor(
 		}
 	}
 
-	fun signUp(name: String, email: String, password: String) =
-		viewModelScope.launch {
-			userRepo.signup(name = name, email = email, password = password)
-		}
+	fun signUp(name: String, email: String, password: String) = viewModelScope.launch {
+		userRepo.signup(name = name, email = email, password = password)
+	}
 
 }
