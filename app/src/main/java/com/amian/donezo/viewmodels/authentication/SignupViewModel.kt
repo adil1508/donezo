@@ -79,7 +79,7 @@ class SignupViewModel @Inject constructor(
 			return
 		}
 
-		emailError.value = null
+		nameError.value = null
 	}
 
 	private fun validatePasswords(password: String?, confirmedPassword: String?) {
