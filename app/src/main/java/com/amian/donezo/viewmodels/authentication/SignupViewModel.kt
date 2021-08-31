@@ -42,7 +42,7 @@ class SignupViewModel @Inject constructor(
 
 	fun signUp() {
 
-		validateEmail(email.value)
+		validateEmail(email = email.value)
 		validateName(name.value)
 		validatePasswords(password.value, confirmedPassword.value)
 
@@ -71,11 +71,11 @@ class SignupViewModel @Inject constructor(
 
 	private fun validateName(name: String?) {
 		if (name.isNullOrBlank()) {
-			emailError.value = "Name is required"
+			nameError.value = "Name is required"
 			return
 		}
 		if (name.length > 120) {
-			emailError.value = "Name must be less than 120 characters"
+			nameError.value = "Name must be less than 120 characters"
 			return
 		}
 
