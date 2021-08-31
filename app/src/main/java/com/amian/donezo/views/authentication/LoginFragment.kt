@@ -29,11 +29,20 @@ class LoginFragment : Fragment() {
 
 		_binding = FragmentLoginBinding.inflate(inflater, container, false)
 
+		binding.viewModel = viewModel
+
 		binding.loginButton.setOnClickListener {
-			viewModel.login(
-				email = binding.emailInput.editText?.text.toString(),
-				password = binding.passwordInput.editText?.text.toString()
-			)
+			viewModel.login()
+		}
+
+		viewModel.emailError.observe(viewLifecycleOwner){
+			binding.emailInput.error = it
+			if (it == null) binding.emailInput.isErrorEnabled = false
+		}
+
+		viewModel.passwordError.observe(viewLifecycleOwner){
+			binding.passwordInput.error = it
+			if (it == null) binding.passwordInput.isErrorEnabled = false
 		}
 
 		binding.forgotPassword.setOnClickListener {
