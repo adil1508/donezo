@@ -20,9 +20,17 @@ class SignupViewModel @Inject constructor(
 	val authenticated = MutableLiveData(false)
 
 	val name = MutableLiveData<String?>(null)
+	val nameError = MutableLiveData<String?>(null)
+
 	val email = MutableLiveData<String?>(null)
+	val emailError = MutableLiveData<String?>(null)
+
 	val password = MutableLiveData<String?>(null)
+	val passwordError = MutableLiveData<String?>(null)
+
 	val confirmedPassword = MutableLiveData<String?>(null)
+	val confirmedPasswordError = MutableLiveData<String?>(null)
+
 
 	init {
 		viewModelScope.launch {
@@ -32,8 +40,68 @@ class SignupViewModel @Inject constructor(
 		}
 	}
 
-	fun signUp(name: String, email: String, password: String) = viewModelScope.launch {
-		userRepo.signup(name = name, email = email, password = password)
+	fun signUp() {
+
+		validateEmail(email.value)
+		validateName(name.value)
+		validatePasswords(password.value, confirmedPassword.value)
+
+		if (nameError.value == null && emailError.value == null && passwordError.value == null && confirmedPasswordError.value == null)
+			viewModelScope.launch {
+				userRepo.signup(
+					name = name.value!!,
+					email = email.value!!,
+					password = password.value!!
+				)
+			}
+	}
+
+	private fun validateEmail(email: String?) {
+		if (email.isNullOrBlank()) {
+			emailError.value = "Email is required"
+			return
+		}
+		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+			emailError.value = "Email is not valid"
+			return
+		}
+
+		emailError.value = null
+	}
+
+	private fun validateName(name: String?) {
+		if (name.isNullOrBlank()) {
+			emailError.value = "Name is required"
+			return
+		}
+		if (name.length > 120) {
+			emailError.value = "Name must be less than 120 characters"
+			return
+		}
+
+		emailError.value = null
+	}
+
+	private fun validatePasswords(password: String?, confirmedPassword: String?) {
+
+		if (password != confirmedPassword) {
+			passwordError.value = "Passwords do not match"
+			confirmedPasswordError.value = "Passwords do not match"
+			return
+		}
+
+		if (password.isNullOrBlank()) {
+			passwordError.value = "Password is required"
+			return
+		}
+
+		if (confirmedPassword.isNullOrBlank()) {
+			confirmedPasswordError.value = "Please re-enter password"
+			return
+		}
+
+		passwordError.value = null
+		confirmedPasswordError.value = null
 	}
 
 }
