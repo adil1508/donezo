@@ -33,7 +33,6 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 
 	fun login() {
 
-		// Validate inputs
 		validateEmail(email = email.value)
 		validatePassword(password = password.value)
 
