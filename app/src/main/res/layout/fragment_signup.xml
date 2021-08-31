@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        
+
+        <variable
+            name="viewModel"
+            type="com.amian.donezo.viewmodels.authentication.SignupViewModel" />
     </data>
 
 
@@ -65,7 +68,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.name}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +85,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.email}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +101,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.password}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +117,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.confirmedPassword}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

@@ -19,6 +19,11 @@ class SignupViewModel @Inject constructor(
 
 	val authenticated = MutableLiveData(false)
 
+	val name = MutableLiveData<String?>(null)
+	val email = MutableLiveData<String?>(null)
+	val password = MutableLiveData<String?>(null)
+	val confirmedPassword = MutableLiveData<String?>(null)
+
 	init {
 		viewModelScope.launch {
 			currentUser.distinctUntilChanged().collect {
