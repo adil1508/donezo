@@ -29,6 +29,13 @@ class ResetPasswordFragment : Fragment() {
 	): View {
 		_binding = FragmentResetPasswordBinding.inflate(inflater, container, false)
 
+		binding.viewModel = viewModel
+
+		viewModel.emailError.observe(viewLifecycleOwner){
+			binding.emailInput.error = it
+			if (it == null) binding.emailInput.isErrorEnabled = false
+		}
+
 		viewModel.resetEmailSent.observe(viewLifecycleOwner) { sent ->
 			if (sent) {
 				Toast.makeText(requireContext(), "Email sent to reset password", Toast.LENGTH_LONG).show()
@@ -37,7 +44,7 @@ class ResetPasswordFragment : Fragment() {
 		}
 
 		binding.resetPasswordButton.setOnClickListener {
-			viewModel.resetPassword(binding.emailInput.editText!!.text.toString())
+			viewModel.resetPassword()
 		}
 
 		return binding.root
