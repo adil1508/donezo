@@ -28,12 +28,30 @@ class SignupFragment : Fragment() {
 	): View {
 		_binding = FragmentSignupBinding.inflate(inflater, container, false)
 
+		binding.viewModel = viewModel
+
+		viewModel.emailError.observe(viewLifecycleOwner){
+			binding.emailInput.error = it
+			if (it == null) binding.emailInput.isErrorEnabled = false
+		}
+
+		viewModel.nameError.observe(viewLifecycleOwner){
+			binding.nameInput.error = it
+			if (it == null) binding.nameInput.isErrorEnabled = false
+		}
+
+		viewModel.passwordError.observe(viewLifecycleOwner){
+			binding.passwordInput.error = it
+			if (it == null) binding.passwordInput.isErrorEnabled = false
+		}
+
+		viewModel.confirmedPasswordError.observe(viewLifecycleOwner){
+			binding.reenterPasswordInput.error = it
+			if (it == null) binding.reenterPasswordInput.isErrorEnabled = false
+		}
+
 		binding.registerButton.setOnClickListener {
-			viewModel.signUp(
-				name = binding.nameInput.editText?.text.toString(),
-				email = binding.emailInput.editText?.text.toString(),
-				password = binding.passwordInput.editText?.text.toString()
-			)
+			viewModel.signUp()
 		}
 
 		viewModel.authenticated.observe(viewLifecycleOwner, {
