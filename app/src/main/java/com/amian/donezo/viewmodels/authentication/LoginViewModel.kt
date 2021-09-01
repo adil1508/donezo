@@ -20,8 +20,8 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 	val emailError = MutableLiveData<String?>(null)
 	val passwordError = MutableLiveData<String?>(null)
 
-	val email = MutableLiveData<String?>()
-	val password = MutableLiveData<String?>()
+	val email = MutableLiveData("")
+	val password = MutableLiveData("")
 
 	init {
 		viewModelScope.launch {
@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 		validatePassword(password = password.value)
 
 		if (emailError.value == null && passwordError.value == null) viewModelScope.launch {
-			userRepo.login(email = email.value!!, password = password.value ?: "")
+			userRepo.login(email = email.value!!, password = password.value!!)
 		}
 
 	}
