@@ -11,31 +11,30 @@ class ResetPasswordViewModel @Inject constructor(private val firebaseAuth: Fireb
 	ViewModel() {
 
 	val emailError = MutableLiveData<String?>(null)
-	val email = MutableLiveData<String?>(null)
+	val email = MutableLiveData("")
 
 	val resetEmailSent = MutableLiveData(false)
 
 	fun resetPassword() {
 
-		validateEmail(email = email.value)
+		validateEmail()
 
 		if (emailError.value == null)
 			firebaseAuth.sendPasswordResetEmail(email.value!!)
 				.addOnCompleteListener { resetEmailSent.value = it.isSuccessful }
 	}
 
-	private fun validateEmail(email: String?) {
-		if (email.isNullOrBlank()) {
+	private fun validateEmail() {
+		if (email.value.isNullOrBlank()) {
 			emailError.value = "Email is required"
 			return
 		}
-		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value as CharSequence).matches()) {
 			emailError.value = "Email is not valid"
 			return
 		}
 
 		emailError.value = null
 	}
-
 
 }
