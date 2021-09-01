@@ -42,9 +42,9 @@ class SignupViewModel @Inject constructor(
 
 	fun signUp() {
 
-		validateEmail(email = email.value)
-		validateName(name.value)
-		validatePasswords(password.value, confirmedPassword.value)
+		validateEmail()
+		validateName()
+		validatePasswords()
 
 		if (nameError.value == null && emailError.value == null && passwordError.value == null && confirmedPasswordError.value == null)
 			viewModelScope.launch {
@@ -56,12 +56,12 @@ class SignupViewModel @Inject constructor(
 			}
 	}
 
-	private fun validateEmail(email: String?) {
-		if (email.isNullOrBlank()) {
+	private fun validateEmail() {
+		if (email.value.isNullOrBlank()) {
 			emailError.value = "Email is required"
 			return
 		}
-		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value as CharSequence).matches()) {
 			emailError.value = "Email is not valid"
 			return
 		}
@@ -69,12 +69,12 @@ class SignupViewModel @Inject constructor(
 		emailError.value = null
 	}
 
-	private fun validateName(name: String?) {
-		if (name.isNullOrBlank()) {
+	private fun validateName() {
+		if (name.value.isNullOrBlank()) {
 			nameError.value = "Name is required"
 			return
 		}
-		if (name.length > 120) {
+		if (name.value!!.length > 120) {
 			nameError.value = "Name must be less than 120 characters"
 			return
 		}
@@ -82,20 +82,20 @@ class SignupViewModel @Inject constructor(
 		nameError.value = null
 	}
 
-	private fun validatePasswords(password: String?, confirmedPassword: String?) {
+	private fun validatePasswords() {
 
-		if (password != confirmedPassword) {
+		if (password.value != confirmedPassword.value) {
 			passwordError.value = "Passwords do not match"
 			confirmedPasswordError.value = "Passwords do not match"
 			return
 		}
 
-		if (password.isNullOrBlank()) {
+		if (password.value.isNullOrBlank()) {
 			passwordError.value = "Password is required"
 			return
 		}
 
-		if (confirmedPassword.isNullOrBlank()) {
+		if (confirmedPassword.value.isNullOrBlank()) {
 			confirmedPasswordError.value = "Please re-enter password"
 			return
 		}
