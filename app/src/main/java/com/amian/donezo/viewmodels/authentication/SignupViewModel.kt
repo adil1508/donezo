@@ -19,16 +19,16 @@ class SignupViewModel @Inject constructor(
 
 	val authenticated = MutableLiveData(false)
 
-	val name = MutableLiveData<String?>(null)
+	val name = MutableLiveData("")
 	val nameError = MutableLiveData<String?>(null)
 
-	val email = MutableLiveData<String?>(null)
+	val email = MutableLiveData("")
 	val emailError = MutableLiveData<String?>(null)
 
-	val password = MutableLiveData<String?>(null)
+	val password = MutableLiveData("")
 	val passwordError = MutableLiveData<String?>(null)
 
-	val confirmedPassword = MutableLiveData<String?>(null)
+	val confirmedPassword = MutableLiveData("")
 	val confirmedPasswordError = MutableLiveData<String?>(null)
 
 
