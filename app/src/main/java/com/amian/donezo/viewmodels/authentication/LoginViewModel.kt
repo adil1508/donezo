@@ -33,8 +33,8 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 
 	fun login() {
 
-		validateEmail(email = email.value)
-		validatePassword(password = password.value)
+		validateEmail()
+		validatePassword()
 
 		if (emailError.value == null && passwordError.value == null) viewModelScope.launch {
 			userRepo.login(email = email.value!!, password = password.value!!)
@@ -42,12 +42,12 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 
 	}
 
-	private fun validateEmail(email: String?) {
-		if (email.isNullOrBlank()) {
+	private fun validateEmail() {
+		if (email.value.isNullOrBlank()) {
 			emailError.value = "Email is required"
 			return
 		}
-		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value as CharSequence).matches()) {
 			emailError.value = "Email is not valid"
 			return
 		}
@@ -55,8 +55,8 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 		emailError.value = null
 	}
 
-	private fun validatePassword(password: String?) {
-		if (password.isNullOrBlank()) {
+	private fun validatePassword() {
+		if (password.value.isNullOrBlank()) {
 			passwordError.value = "Password is required"
 			return
 		}
