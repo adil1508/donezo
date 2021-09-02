@@ -29,17 +29,27 @@ class HomeFragment : Fragment() {
 	@Inject
 	lateinit var userRepository: UserRepository
 
+	val currentUser by lazy {
+		userRepository.observeUser()
+	}
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
 
-		userRepository.observeUser().asLiveData().observe(viewLifecycleOwner, {
-			if (it == null) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
-		})
+
 
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+		currentUser.asLiveData().observe(viewLifecycleOwner, {
+			if (it == null) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
+			else {
+				val newstr = "All Donezo, " + it.name + "!"
+				binding.text.text = newstr
+			}
+		})
 
 		binding.logoutButton.setOnClickListener {
 			lifecycleScope.launch { userRepository.clearUser() }
