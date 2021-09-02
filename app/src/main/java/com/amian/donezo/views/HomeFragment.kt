@@ -45,8 +45,11 @@ class HomeFragment : Fragment() {
 			lifecycleScope.launch { userRepository.clearUser() }
 		}
 
-		(requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-		(requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+		with(requireActivity() as AppCompatActivity){
+			setSupportActionBar(binding.toolbar)
+			supportActionBar?.setDisplayShowTitleEnabled(false)
+		}
+
 		setHasOptionsMenu(true)
 
 		return binding.root
