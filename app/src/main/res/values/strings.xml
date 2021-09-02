@@ -25,4 +25,5 @@
     <string name="reset_password">Reset Password</string>
     <string name="reset_password_subtitle">happens to the best of us \nenter the email you used to sign up</string>
     <string name="add">Add</string>
+    <string name="logout">logout</string>
 </resources>
