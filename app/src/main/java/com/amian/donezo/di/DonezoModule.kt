@@ -30,6 +30,8 @@ class DonezoProviderModule {
 	@Singleton
 	fun providesUserDao(db: DonezoDatabase): UserDao = db.userDao()
 
+	@Provides
+	@Singleton
 	fun providesTodoDao(db: DonezoDatabase): TodoDao = db.todoDao()
 
 	@Provides

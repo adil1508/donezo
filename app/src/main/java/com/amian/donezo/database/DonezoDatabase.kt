@@ -8,7 +8,7 @@ import com.amian.donezo.database.entities.Todo
 import com.amian.donezo.database.entities.User
 
 @Database(entities = [User::class, Todo::class], version = 1, exportSchema = true)
-abstract class DonezoDatabase: RoomDatabase() {
+abstract class DonezoDatabase : RoomDatabase() {
 	abstract fun userDao(): UserDao
 	abstract fun todoDao(): TodoDao
 }
