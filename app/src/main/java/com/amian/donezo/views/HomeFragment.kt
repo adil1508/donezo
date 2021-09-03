@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -33,13 +34,15 @@ class HomeFragment : Fragment() {
 		userRepository.observeUser()
 	}
 
+	val todoFragment by lazy {
+		AddTodoFragment()
+	}
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-
-
 
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -55,7 +58,7 @@ class HomeFragment : Fragment() {
 			lifecycleScope.launch { userRepository.clearUser() }
 		}
 
-		with(requireActivity() as AppCompatActivity){
+		with(requireActivity() as AppCompatActivity) {
 			setSupportActionBar(binding.toolbar)
 			supportActionBar?.setDisplayShowTitleEnabled(false)
 		}
@@ -68,6 +71,16 @@ class HomeFragment : Fragment() {
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		super.onCreateOptionsMenu(menu, inflater)
 		inflater.inflate(R.menu.home_menu, menu)
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		return when (item.itemId) {
+			R.id.add -> {
+				todoFragment.show(requireActivity().supportFragmentManager, "TEST")
+				true
+			}
+			else -> super.onOptionsItemSelected(item)
+		}
 	}
 
 	override fun onDestroyView() {
