@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class AddTodoFragment : BottomSheetDialogFragment() {
 
 	private var _binding: FragmentAddTodoBinding? = null
-	val binding: FragmentAddTodoBinding
+	private val binding: FragmentAddTodoBinding
 		get() = _binding!!
 
 	override fun onCreateView(
@@ -22,6 +22,11 @@ class AddTodoFragment : BottomSheetDialogFragment() {
 		_binding = FragmentAddTodoBinding.inflate(inflater, container, false)
 
 		return binding.root
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+		_binding = null
 	}
 
 	companion object {
