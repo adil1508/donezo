@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.amian.donezo.database.DonezoDatabase
 import com.amian.donezo.database.dao.TodoDao
 import com.amian.donezo.database.dao.UserDao
+import com.amian.donezo.repositories.TodoRepository
+import com.amian.donezo.repositories.TodoRepositoryImpl
 import com.amian.donezo.repositories.UserRepoImpl
 import com.amian.donezo.repositories.UserRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -50,4 +52,7 @@ abstract class DonezoBindingModule {
 
 	@Binds
 	abstract fun bindsUserRepoImpl(userRepoImpl: UserRepoImpl): UserRepository
+
+	@Binds
+	abstract fun bindsTodoRepoImpl(todoRepositoryImpl: TodoRepositoryImpl): TodoRepository
 }
