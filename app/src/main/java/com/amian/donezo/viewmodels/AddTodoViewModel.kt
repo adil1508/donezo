@@ -1,5 +1,6 @@
 package com.amian.donezo.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,23 +14,20 @@ import javax.inject.Inject
 @HiltViewModel
 class AddTodoViewModel @Inject constructor(
 	private val todoRepo: TodoRepository,
-	private val userRepo: UserRepository
+	userRepo: UserRepository
 ) : ViewModel() {
 
-	/*
-	* TODO:
-	*  - Add method to write to database + write to firestore
-	* */
+	val todoText = MutableLiveData("")
 
-	private val currentUser by lazy {
-		userRepo.observeUser()
-	}
+	val currentUserLiveData = userRepo.observeUser().asLiveData()
 
-	fun addTodo(todoText: String) {
-		viewModelScope.launch {
-			currentUser.asLiveData().value?.let {
-				todoRepo.addTodo(Todo(email = it.email, todo = todoText))
+	fun addTodo() = viewModelScope.launch {
+		currentUserLiveData.value?.let { user ->
+			todoText.value?.let { todoTextVal ->
+				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal))
+				todoText.value = ""
 			}
 		}
 	}
+
 }
