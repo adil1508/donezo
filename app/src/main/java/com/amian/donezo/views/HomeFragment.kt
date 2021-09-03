@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
 	@Inject
 	lateinit var userRepository: UserRepository
 
-	val currentUser by lazy {
+	private val currentUser by lazy {
 		userRepository.observeUser()
 	}
 
