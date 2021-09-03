@@ -23,4 +23,8 @@ class AddTodoFragment : BottomSheetDialogFragment() {
 
 		return binding.root
 	}
+
+	companion object {
+		const val TAG = "ADD_TODO_FRAGMENT"
+	}
 }
