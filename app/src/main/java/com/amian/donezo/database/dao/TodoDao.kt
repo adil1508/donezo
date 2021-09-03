@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.amian.donezo.database.entities.Todo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
@@ -17,5 +18,5 @@ interface TodoDao {
 	suspend fun deleteTodo(todo: Todo)
 
 	@Query("SELECT * FROM ${Todo.TODO_TABLE} WHERE email = :email")
-	suspend fun getTodos(email: String)
+	fun observeTodos(email: String): Flow<List<Todo>?>
 }
