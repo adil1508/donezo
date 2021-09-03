@@ -3,6 +3,7 @@ package com.amian.donezo.di
 import android.content.Context
 import androidx.room.Room
 import com.amian.donezo.database.DonezoDatabase
+import com.amian.donezo.database.dao.TodoDao
 import com.amian.donezo.database.dao.UserDao
 import com.amian.donezo.repositories.UserRepoImpl
 import com.amian.donezo.repositories.UserRepository
@@ -28,6 +29,8 @@ class DonezoProviderModule {
 	@Provides
 	@Singleton
 	fun providesUserDao(db: DonezoDatabase): UserDao = db.userDao()
+
+	fun providesTodoDao(db: DonezoDatabase): TodoDao = db.todoDao()
 
 	@Provides
 	@Singleton
