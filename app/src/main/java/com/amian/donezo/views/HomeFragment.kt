@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 		userRepository.observeUser()
 	}
 
-	val todoFragment by lazy {
+	private val todoFragment by lazy {
 		AddTodoFragment()
 	}
 
@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		return when (item.itemId) {
 			R.id.add -> {
-				todoFragment.show(requireActivity().supportFragmentManager, "TEST")
+				todoFragment.show(requireActivity().supportFragmentManager, AddTodoFragment.TAG)
 				true
 			}
 			else -> super.onOptionsItemSelected(item)
