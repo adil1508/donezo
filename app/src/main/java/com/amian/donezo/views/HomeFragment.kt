@@ -68,6 +68,11 @@ class HomeFragment : Fragment() {
 		return binding.root
 	}
 
+	override fun onDestroy() {
+		super.onDestroy()
+		_binding = null
+	}
+
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		super.onCreateOptionsMenu(menu, inflater)
 		inflater.inflate(R.menu.home_menu, menu)
