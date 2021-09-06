@@ -23,8 +23,9 @@ class AddTodoViewModel @Inject constructor(
 
 	fun addTodo() = viewModelScope.launch {
 		currentUserLiveData.value?.let { user ->
-			todoText.value?.let { todoTextVal ->
-				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal))
+			todoText.value.takeIf { !it.isNullOrBlank() }.let { todoTextVal ->
+				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal!!))
+				// reset it's value
 				todoText.value = ""
 			}
 		}
