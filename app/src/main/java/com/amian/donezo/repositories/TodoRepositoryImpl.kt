@@ -30,6 +30,8 @@ class TodoRepositoryImpl @Inject constructor(
 							).addOnCompleteListener { lastTask ->
 								if (lastTask.isSuccessful) {
 									Timber.d("Successfully wrote todo to firestore")
+								} else {
+									Timber.d("Failed to write todo to firestore")
 								}
 							}
 					}
