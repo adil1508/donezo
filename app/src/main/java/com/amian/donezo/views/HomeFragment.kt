@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.amian.donezo.ApplicationNavigationDirections
 import com.amian.donezo.R
 import com.amian.donezo.databinding.FragmentHomeBinding
 import com.amian.donezo.repositories.UserRepository
+import com.amian.donezo.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +39,8 @@ class HomeFragment : Fragment() {
 	private val todoFragment by lazy {
 		AddTodoFragment()
 	}
+
+	private val viewModel: HomeViewModel by viewModels()
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
