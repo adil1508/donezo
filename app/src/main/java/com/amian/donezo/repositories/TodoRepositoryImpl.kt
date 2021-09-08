@@ -3,6 +3,7 @@ package com.amian.donezo.repositories
 import com.amian.donezo.database.dao.TodoDao
 import com.amian.donezo.database.entities.Todo
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,6 +18,8 @@ class TodoRepositoryImpl @Inject constructor(
 		todoDao.insertTodo(todo)
 		addTodoToFirestore(todo)
 	}
+
+	override fun observeTodos(email: String): Flow<List<Todo>> = todoDao.observeTodos(email = email)
 
 	private fun addTodoToFirestore(todo: Todo) =
 		usersCollection.whereEqualTo("email", todo.email).limit(1).get()
