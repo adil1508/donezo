@@ -8,6 +8,8 @@ import com.amian.donezo.database.entities.Todo
 import com.amian.donezo.repositories.TodoRepository
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,13 +23,13 @@ class AddTodoViewModel @Inject constructor(
 
 	val currentUserLiveData = userRepo.observeUser().asLiveData()
 
-	fun addTodo() = viewModelScope.launch {
-		currentUserLiveData.value?.let { user ->
-			todoText.value.takeIf { !it.isNullOrBlank() }.let { todoTextVal ->
+	fun addTodo() = currentUserLiveData.value?.let { user ->
+		todoText.value.takeIf { !it.isNullOrBlank() }.let { todoTextVal ->
+			GlobalScope.launch(Dispatchers.IO) {
 				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal!!))
-				// reset it's value
-				todoText.value = ""
 			}
+			// reset it's value
+			todoText.value = ""
 		}
 	}
 
