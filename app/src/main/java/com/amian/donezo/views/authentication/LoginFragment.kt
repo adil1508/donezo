@@ -9,11 +9,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.FragmentLoginBinding
+import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.authentication.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
+
+	@Inject
+	lateinit var userRepository: UserRepository
 
 	private var _binding: FragmentLoginBinding? = null
 	private val binding
@@ -26,8 +31,19 @@ class LoginFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-
 		_binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		userRepository.currentUser.observe(viewLifecycleOwner) {
+			it?.let {
+				findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
+			}
+		}
 
 		binding.viewModel = viewModel
 
@@ -35,12 +51,12 @@ class LoginFragment : Fragment() {
 			viewModel.login()
 		}
 
-		viewModel.emailError.observe(viewLifecycleOwner){
+		viewModel.emailError.observe(viewLifecycleOwner) {
 			binding.emailInput.error = it
 			if (it == null) binding.emailInput.isErrorEnabled = false
 		}
 
-		viewModel.passwordError.observe(viewLifecycleOwner){
+		viewModel.passwordError.observe(viewLifecycleOwner) {
 			binding.passwordInput.error = it
 			if (it == null) binding.passwordInput.isErrorEnabled = false
 		}
@@ -52,11 +68,5 @@ class LoginFragment : Fragment() {
 		binding.signupButton.setOnClickListener {
 			findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
 		}
-
-		viewModel.authenticated.observe(viewLifecycleOwner, {
-			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
-		})
-
-		return binding.root
 	}
 }
