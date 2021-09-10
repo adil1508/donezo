@@ -39,10 +39,8 @@ class LoginFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		userRepository.currentUser.observe(viewLifecycleOwner) {
-			it?.let {
-				findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
-			}
+		viewModel.authenticated.observe(viewLifecycleOwner) {
+			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
 		}
 
 		binding.viewModel = viewModel

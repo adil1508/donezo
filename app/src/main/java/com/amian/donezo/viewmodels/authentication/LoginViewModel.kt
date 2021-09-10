@@ -5,17 +5,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val userRepo: UserRepository) : ViewModel() {
 
+	val authenticated = MutableLiveData(false)
+
 	val emailError = MutableLiveData<String?>(null)
 	val passwordError = MutableLiveData<String?>(null)
 
 	val email = MutableLiveData("")
 	val password = MutableLiveData("")
+
+	init {
+		viewModelScope.launch {
+			userRepo.currentUser.collect {
+				if (it != null) {
+					authenticated.value = true
+				}
+			}
+		}
+	}
 
 	fun login() {
 
