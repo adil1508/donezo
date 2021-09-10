@@ -51,6 +51,7 @@ class DonezoProviderModule {
 abstract class DonezoBindingModule {
 
 	@Binds
+	@Singleton
 	abstract fun bindsUserRepoImpl(userRepoImpl: UserRepoImpl): UserRepository
 
 	@Binds
