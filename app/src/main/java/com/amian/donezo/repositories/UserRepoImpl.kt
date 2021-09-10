@@ -1,12 +1,13 @@
 package com.amian.donezo.repositories
 
-import androidx.lifecycle.LiveData
 import com.amian.donezo.database.dao.UserDao
 import com.amian.donezo.database.entities.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,7 +18,8 @@ class UserRepoImpl @Inject constructor(
 	private val firestore: FirebaseFirestore
 ) : UserRepository {
 
-	override val currentUser: LiveData<User?> = userDao.observeCurrentUser()
+	override val currentUser =
+		userDao.observeCurrentUser().stateIn(GlobalScope, SharingStarted.Eagerly, null)
 
 	override suspend fun clearUser() = userDao.deleteUser()
 

@@ -1,11 +1,11 @@
 package com.amian.donezo.repositories
 
-import androidx.lifecycle.LiveData
 import com.amian.donezo.database.entities.User
+import kotlinx.coroutines.flow.StateFlow
 
 interface UserRepository {
 
-	val currentUser: LiveData<User?>
+	val currentUser: StateFlow<User?>
 
 	suspend fun clearUser()
 
