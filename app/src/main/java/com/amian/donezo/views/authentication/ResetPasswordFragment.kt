@@ -28,17 +28,22 @@ class ResetPasswordFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentResetPasswordBinding.inflate(inflater, container, false)
+		return binding.root
+	}
 
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		binding.viewModel = viewModel
 
-		viewModel.emailError.observe(viewLifecycleOwner){
+		viewModel.emailError.observe(viewLifecycleOwner) {
 			binding.emailInput.error = it
 			if (it == null) binding.emailInput.isErrorEnabled = false
 		}
 
 		viewModel.resetEmailSent.observe(viewLifecycleOwner) { sent ->
 			if (sent) {
-				Toast.makeText(requireContext(), "Email sent to reset password", Toast.LENGTH_LONG).show()
+				Toast.makeText(requireContext(), "Email sent to reset password", Toast.LENGTH_LONG)
+					.show()
 				findNavController().navigate(ResetPasswordFragmentDirections.actionResetPasswordFragmentToLoginFragment())
 			}
 		}
@@ -46,7 +51,5 @@ class ResetPasswordFragment : Fragment() {
 		binding.resetPasswordButton.setOnClickListener {
 			viewModel.resetPassword()
 		}
-
-		return binding.root
 	}
 }
