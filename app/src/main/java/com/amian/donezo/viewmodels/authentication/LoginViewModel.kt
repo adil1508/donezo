@@ -24,9 +24,7 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 	init {
 		viewModelScope.launch {
 			userRepo.currentUser.collect {
-				if (it != null) {
-					authenticated.value = true
-				}
+				if (it != null) authenticated.value = true
 			}
 		}
 	}
