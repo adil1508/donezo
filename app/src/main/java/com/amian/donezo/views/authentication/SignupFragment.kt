@@ -9,11 +9,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.FragmentSignupBinding
+import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.authentication.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
+
+	@Inject
+	lateinit var userRepository: UserRepository
 
 	private var _binding: FragmentSignupBinding? = null
 	private val binding
@@ -26,26 +31,35 @@ class SignupFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
+		viewModel.authenticated.observe(viewLifecycleOwner) {
+			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
+		}
+
 		_binding = FragmentSignupBinding.inflate(inflater, container, false)
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
 		binding.viewModel = viewModel
 
-		viewModel.emailError.observe(viewLifecycleOwner){
+		viewModel.emailError.observe(viewLifecycleOwner) {
 			binding.emailInput.error = it
 			if (it == null) binding.emailInput.isErrorEnabled = false
 		}
 
-		viewModel.nameError.observe(viewLifecycleOwner){
+		viewModel.nameError.observe(viewLifecycleOwner) {
 			binding.nameInput.error = it
 			if (it == null) binding.nameInput.isErrorEnabled = false
 		}
 
-		viewModel.passwordError.observe(viewLifecycleOwner){
+		viewModel.passwordError.observe(viewLifecycleOwner) {
 			binding.passwordInput.error = it
 			if (it == null) binding.passwordInput.isErrorEnabled = false
 		}
 
-		viewModel.confirmedPasswordError.observe(viewLifecycleOwner){
+		viewModel.confirmedPasswordError.observe(viewLifecycleOwner) {
 			binding.reenterPasswordInput.error = it
 			if (it == null) binding.reenterPasswordInput.isErrorEnabled = false
 		}
@@ -54,10 +68,5 @@ class SignupFragment : Fragment() {
 			viewModel.signUp()
 		}
 
-		viewModel.authenticated.observe(viewLifecycleOwner, {
-			if (it) findNavController().navigate(AuthenticationNavigationDirections.actionAuthenticated())
-		})
-
-		return binding.root
 	}
 }

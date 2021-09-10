@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,8 +13,6 @@ import javax.inject.Inject
 class SignupViewModel @Inject constructor(
 	private val userRepo: UserRepository,
 ) : ViewModel() {
-
-	private val currentUser = userRepo.observeUser()
 
 	val authenticated = MutableLiveData(false)
 
@@ -31,11 +28,10 @@ class SignupViewModel @Inject constructor(
 	val confirmedPassword = MutableLiveData("")
 	val confirmedPasswordError = MutableLiveData<String?>(null)
 
-
 	init {
 		viewModelScope.launch {
-			currentUser.distinctUntilChanged().collect {
-				authenticated.value = it != null
+			userRepo.currentUser.collect {
+				if (it != null) authenticated.value = true
 			}
 		}
 	}
