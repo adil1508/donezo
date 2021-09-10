@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.amian.donezo.ApplicationNavigationDirections
@@ -20,6 +19,7 @@ import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,10 +32,6 @@ class HomeFragment : Fragment() {
 	@Inject
 	lateinit var userRepository: UserRepository
 
-	private val currentUser by lazy {
-		userRepository.observeUser()
-	}
-
 	private val todoFragment by lazy {
 		AddTodoFragment()
 	}
@@ -47,16 +43,24 @@ class HomeFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
+		viewModel.authenticated.observe(viewLifecycleOwner) {
+			if (!it) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
+		}
 
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
+		return binding.root
+	}
 
-		currentUser.asLiveData().observe(viewLifecycleOwner, {
-			if (it == null) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
-			else {
-				val newstr = "All Donezo, " + it.name + "!"
-				binding.text.text = newstr
-			}
-		})
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		userRepository.currentUser.value?.let {
+			val newstr = "All Donezo, " + it.name + "!"
+			binding.text.text = newstr
+			viewModel.todos.observe(viewLifecycleOwner, {
+				Timber.d("The size of the todos list is: ${it.size}")
+			})
+		}
 
 		binding.logoutButton.setOnClickListener {
 			lifecycleScope.launch { userRepository.clearUser() }
@@ -68,13 +72,6 @@ class HomeFragment : Fragment() {
 		}
 
 		setHasOptionsMenu(true)
-
-		return binding.root
-	}
-
-	override fun onDestroy() {
-		super.onDestroy()
-		_binding = null
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
