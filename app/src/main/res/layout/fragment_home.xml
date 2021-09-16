@@ -14,23 +14,22 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:navigationIcon="@drawable/ic_hamburger_menu"
-            app:menu="@menu/home_menu"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            app:menu="@menu/home_menu"
+            app:navigationIcon="@drawable/ic_hamburger_menu" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:textSize="28sp"
             android:paddingVertical="8dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:paddingStart="16dp"
-            android:text="@string/todos" />
+            android:text="@string/todos"
+            android:textColor="@android:color/black"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,34 +38,43 @@
         android:id="@+id/empty_state_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_relaxation"
         android:contentDescription="@null"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintTop_toBottomOf="@id/appbar_layout"
+        android:src="@drawable/ic_relaxation"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/appbar_layout"
+        app:layout_constraintVertical_bias="0.01" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/empty_state_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="16dp"
         android:text="@string/all_donezo"
         android:textSize="36sp"
-        android:paddingVertical="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/empty_state_image" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/logout_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text" />
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:backgroundTint="@color/black"
         android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="24dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
