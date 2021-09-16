@@ -9,16 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.FragmentSignupBinding
-import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.authentication.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
-
-	@Inject
-	lateinit var userRepository: UserRepository
 
 	private var _binding: FragmentSignupBinding? = null
 	private val binding

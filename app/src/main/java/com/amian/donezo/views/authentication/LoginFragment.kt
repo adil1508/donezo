@@ -9,16 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amian.donezo.AuthenticationNavigationDirections
 import com.amian.donezo.databinding.FragmentLoginBinding
-import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.authentication.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-
-	@Inject
-	lateinit var userRepository: UserRepository
 
 	private var _binding: FragmentLoginBinding? = null
 	private val binding

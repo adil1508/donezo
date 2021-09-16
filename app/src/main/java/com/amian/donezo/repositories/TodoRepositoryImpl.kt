@@ -21,7 +21,7 @@ class TodoRepositoryImpl @Inject constructor(
 		try {
 			todoDao.insertTodo(todo)
 		} catch (t: Throwable) {
-			Timber.d(t)
+			Timber.e(t)
 		}
 		addTodoToFirestore(todo)
 	}
