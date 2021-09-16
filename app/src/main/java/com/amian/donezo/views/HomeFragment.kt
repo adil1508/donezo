@@ -57,9 +57,10 @@ class HomeFragment : Fragment() {
 		userRepository.currentUser.value?.let {
 			val newstr = "All Donezo, " + it.name + "!"
 			binding.text.text = newstr
-			viewModel.todos.observe(viewLifecycleOwner, {
-				Timber.d("The size of the todos list is: ${it.size}")
-			})
+		}
+
+		viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
+			Timber.d("The length of the todo list is: ${list.size}")
 		}
 
 		binding.logoutButton.setOnClickListener {
