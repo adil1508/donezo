@@ -29,9 +29,6 @@ class AddTodoFragment : BottomSheetDialogFragment() {
 
 		binding.viewModel = viewModel
 
-		// to start the flow
-		viewModel.currentUserLiveData.observe(viewLifecycleOwner) {}
-
 		return binding.root
 	}
 
