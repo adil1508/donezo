@@ -1,9 +1,12 @@
 package com.amian.donezo.repositories
 
-import androidx.lifecycle.LiveData
 import com.amian.donezo.database.dao.TodoDao
 import com.amian.donezo.database.entities.Todo
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,8 +26,8 @@ class TodoRepositoryImpl @Inject constructor(
 		addTodoToFirestore(todo)
 	}
 
-	override fun observeTodos(email: String): LiveData<List<Todo>> =
-		todoDao.observeTodos(email = email)
+	override fun observeTodos(email: String): StateFlow<List<Todo>> =
+		todoDao.observeTodos(email = email).stateIn(GlobalScope, SharingStarted.Eagerly, listOf())
 
 	private fun addTodoToFirestore(todo: Todo) =
 		usersCollection.whereEqualTo("email", todo.email).limit(1).get()
