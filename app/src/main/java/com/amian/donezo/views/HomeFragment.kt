@@ -13,12 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amian.donezo.ApplicationNavigationDirections
 import com.amian.donezo.R
 import com.amian.donezo.database.entities.Todo
 import com.amian.donezo.databinding.FragmentHomeBinding
+import com.amian.donezo.databinding.ListItemTodoBinding
 import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,6 +60,9 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		binding.recyclerview.adapter = TodoListAdapter()
+		binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
 		userRepository.currentUser.value?.let {
 			val newstr = "All Donezo, " + it.name + "!"
 			binding.text.text = newstr
@@ -65,6 +70,7 @@ class HomeFragment : Fragment() {
 
 		viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
 			Timber.d("The length of the todo list is: ${list.size}")
+			(binding.recyclerview.adapter as TodoListAdapter).submitList(list)
 		}
 
 		binding.logoutButton.setOnClickListener {
@@ -100,24 +106,36 @@ class HomeFragment : Fragment() {
 	}
 
 	private inner class TodoListAdapter :
-		ListAdapter<Todo, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
+		ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
 
-			override fun areItemsTheSame(oldItem: Todo, newItem: Todo) = oldItem.id == newItem.id
+			override fun areItemsTheSame(oldItem: Todo, newItem: Todo) =
+				oldItem.id == newItem.id
 
-			override fun areContentsTheSame(oldItem: Todo, newItem: Todo) = oldItem == newItem
+			override fun areContentsTheSame(oldItem: Todo, newItem: Todo) =
+				oldItem == newItem
 
 		}) {
 
-		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-			TODO("Not yet implemented")
+		override fun onCreateViewHolder(
+			parent: ViewGroup,
+			viewType: Int
+		): TodoListAdapter.TodoViewHolder = TodoViewHolder(parent)
+
+		override fun onBindViewHolder(holder: TodoListAdapter.TodoViewHolder, position: Int) {
+			holder.bind(getItem(position))
 		}
 
-		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-			TODO("Not yet implemented")
-		}
+		override fun getItemCount(): Int = currentList.size
 
-		override fun getItemCount(): Int {
-			return super.getItemCount()
+		private inner class TodoViewHolder(private val binding: ListItemTodoBinding) :
+			RecyclerView.ViewHolder(binding.root) {
+			constructor(parent: ViewGroup) : this(
+				ListItemTodoBinding.inflate(layoutInflater, parent, false)
+			)
+
+			fun bind(todo: Todo) {
+				binding.text.text = todo.todo
+			}
 		}
 	}
 }
