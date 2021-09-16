@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(private val userRepo: UserRepository) :
 	val password = MutableLiveData("")
 
 	init {
-		viewModelScope.launch {
+		viewModelScope.launch(Dispatchers.IO) {
 			userRepo.currentUser.collect {
 				if (it != null) authenticated.value = true
 			}

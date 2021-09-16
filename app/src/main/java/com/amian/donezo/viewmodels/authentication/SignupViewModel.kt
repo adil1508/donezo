@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class SignupViewModel @Inject constructor(
 	val confirmedPasswordError = MutableLiveData<String?>(null)
 
 	init {
-		viewModelScope.launch {
+		viewModelScope.launch(Dispatchers.IO) {
 			userRepo.currentUser.collect {
 				if (it != null) authenticated.value = true
 			}
