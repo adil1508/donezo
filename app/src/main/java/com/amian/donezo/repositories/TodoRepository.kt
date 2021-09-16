@@ -1,12 +1,12 @@
 package com.amian.donezo.repositories
 
-import androidx.lifecycle.LiveData
 import com.amian.donezo.database.entities.Todo
+import kotlinx.coroutines.flow.StateFlow
 
 interface TodoRepository {
 
 	suspend fun addTodo(todo: Todo)
 
-	fun observeTodos(email: String): LiveData<List<Todo>>
+	fun observeTodos(email: String): StateFlow<List<Todo>>
 
 }
