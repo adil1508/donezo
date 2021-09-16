@@ -12,8 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.amian.donezo.ApplicationNavigationDirections
 import com.amian.donezo.R
+import com.amian.donezo.database.entities.Todo
 import com.amian.donezo.databinding.FragmentHomeBinding
 import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.HomeViewModel
@@ -93,5 +97,27 @@ class HomeFragment : Fragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	private inner class TodoListAdapter :
+		ListAdapter<Todo, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
+
+			override fun areItemsTheSame(oldItem: Todo, newItem: Todo) = oldItem.id == newItem.id
+
+			override fun areContentsTheSame(oldItem: Todo, newItem: Todo) = oldItem == newItem
+
+		}) {
+
+		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+			TODO("Not yet implemented")
+		}
+
+		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+			TODO("Not yet implemented")
+		}
+
+		override fun getItemCount(): Int {
+			return super.getItemCount()
+		}
 	}
 }
