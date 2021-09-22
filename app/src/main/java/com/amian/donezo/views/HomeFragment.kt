@@ -31,111 +31,111 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-	private var _binding: FragmentHomeBinding? = null
-	val binding
-		get() = _binding!!
+    private var _binding: FragmentHomeBinding? = null
+    val binding
+        get() = _binding!!
 
-	@Inject
-	lateinit var userRepository: UserRepository
+    @Inject
+    lateinit var userRepository: UserRepository
 
-	private val todoFragment by lazy {
-		AddTodoFragment()
-	}
+    private val todoFragment by lazy {
+        AddTodoFragment()
+    }
 
-	private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-		viewModel.authenticated.observe(viewLifecycleOwner) {
-			if (!it) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
-		}
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        viewModel.authenticated.observe(viewLifecycleOwner) {
+            if (!it) findNavController().navigate(ApplicationNavigationDirections.actionUnauthenticated())
+        }
 
-		_binding = FragmentHomeBinding.inflate(inflater, container, false)
-		return binding.root
-	}
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-		binding.recyclerview.adapter = TodoListAdapter()
-		binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerview.adapter = TodoListAdapter()
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-		userRepository.currentUser.value?.let {
-			val newstr = "All Donezo, " + it.name + "!"
-			binding.text.text = newstr
-		}
+        userRepository.currentUser.value?.let {
+            val newstr = "All Donezo, " + it.name + "!"
+            binding.text.text = newstr
+        }
 
-		viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
-			Timber.d("The length of the todo list is: ${list.size}")
-			(binding.recyclerview.adapter as TodoListAdapter).submitList(list)
-		}
+        viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
+            Timber.d("The length of the todo list is: ${list.size}")
+            (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
+        }
 
-		binding.logoutButton.setOnClickListener {
-			lifecycleScope.launch { userRepository.clearUser() }
-		}
+        binding.logoutButton.setOnClickListener {
+            lifecycleScope.launch { userRepository.clearUser() }
+        }
 
-		with(requireActivity() as AppCompatActivity) {
-			setSupportActionBar(binding.toolbar)
-			supportActionBar?.setDisplayShowTitleEnabled(false)
-		}
+        with(requireActivity() as AppCompatActivity) {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        }
 
-		setHasOptionsMenu(true)
-	}
+        setHasOptionsMenu(true)
+    }
 
-	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-		super.onCreateOptionsMenu(menu, inflater)
-		inflater.inflate(R.menu.home_menu, menu)
-	}
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home_menu, menu)
+    }
 
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		return when (item.itemId) {
-			R.id.add -> {
-				todoFragment.show(requireActivity().supportFragmentManager, AddTodoFragment.TAG)
-				true
-			}
-			else -> super.onOptionsItemSelected(item)
-		}
-	}
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.add -> {
+                todoFragment.show(requireActivity().supportFragmentManager, AddTodoFragment.TAG)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
-	}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
-	private inner class TodoListAdapter :
-		ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
+    private inner class TodoListAdapter :
+        ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
 
-			override fun areItemsTheSame(oldItem: Todo, newItem: Todo) =
-				oldItem.id == newItem.id
+            override fun areItemsTheSame(oldItem: Todo, newItem: Todo) =
+                oldItem.id == newItem.id
 
-			override fun areContentsTheSame(oldItem: Todo, newItem: Todo) =
-				oldItem == newItem
+            override fun areContentsTheSame(oldItem: Todo, newItem: Todo) =
+                oldItem == newItem
 
-		}) {
+        }) {
 
-		override fun onCreateViewHolder(
-			parent: ViewGroup,
-			viewType: Int
-		): TodoListAdapter.TodoViewHolder = TodoViewHolder(parent)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): TodoListAdapter.TodoViewHolder = TodoViewHolder(parent)
 
-		override fun onBindViewHolder(holder: TodoListAdapter.TodoViewHolder, position: Int) {
-			holder.bind(getItem(position))
-		}
+        override fun onBindViewHolder(holder: TodoListAdapter.TodoViewHolder, position: Int) {
+            holder.bind(getItem(position))
+        }
 
-		override fun getItemCount(): Int = currentList.size
+        override fun getItemCount(): Int = currentList.size
 
-		private inner class TodoViewHolder(private val binding: ListItemTodoBinding) :
-			RecyclerView.ViewHolder(binding.root) {
-			constructor(parent: ViewGroup) : this(
-				ListItemTodoBinding.inflate(layoutInflater, parent, false)
-			)
+        private inner class TodoViewHolder(private val binding: ListItemTodoBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            constructor(parent: ViewGroup) : this(
+                ListItemTodoBinding.inflate(layoutInflater, parent, false)
+            )
 
-			fun bind(todo: Todo) {
-				binding.text.text = todo.todo
-			}
-		}
-	}
+            fun bind(todo: Todo) {
+                binding.text.text = todo.todo
+            }
+        }
+    }
 }
