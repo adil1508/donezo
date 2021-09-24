@@ -9,4 +9,8 @@ interface TodoRepository {
 
 	fun observeTodos(email: String): StateFlow<List<Todo>>
 
+	fun refreshTodos(email: String)
+
+	fun deleteAllTodos()
+
 }
