@@ -19,4 +19,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM ${Todo.TODO_TABLE} WHERE email = :email ORDER BY id desc")
     fun observeTodos(email: String): Flow<List<Todo>>
+
+    @Query("DELETE FROM ${Todo.TODO_TABLE}")
+    fun deleteAllTodos()
 }
