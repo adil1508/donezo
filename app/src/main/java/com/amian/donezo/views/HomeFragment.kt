@@ -26,7 +26,6 @@ import com.amian.donezo.databinding.ListItemTodoBinding
 import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -139,7 +138,7 @@ class HomeFragment : Fragment() {
             fun bind(todo: Todo) {
                 binding.text.text = todo.todo
                 binding.checkbox.setOnClickListener { checkbox ->
-                    when((checkbox as CheckBox).isChecked) {
+                    when ((checkbox as CheckBox).isChecked) {
                         true -> {
                             binding.text.apply {
                                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
