@@ -41,12 +41,14 @@ class TodoRepositoryImpl @Inject constructor(
                                 if (todoTask.isSuccessful) {
                                     Timber.d("Got ${todoTask.result?.documents?.size} todos for $email")
                                     GlobalScope.launch(Dispatchers.IO) {
-                                        deleteAllTodos()
                                         todoTask.result?.documents?.forEach { remoteTodoDoc ->
-                                            GlobalScope.launch(Dispatchers.IO) {
-                                                remoteTodoDoc.getString("msg")?.let { remoteTodo ->
-                                                    todoDao.insertTodo(Todo(email = email, todo = remoteTodo))
-                                                }
+                                            remoteTodoDoc.getString("msg")?.let { remoteTodo ->
+                                                todoDao.insertTodo(
+                                                    Todo(
+                                                        email = email,
+                                                        todo = remoteTodo
+                                                    )
+                                                )
                                             }
                                         }
                                     }
