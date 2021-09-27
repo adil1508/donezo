@@ -41,7 +41,6 @@ class HomeViewModel @Inject constructor(
 
     private fun refreshTodos() = viewModelScope.launch(Dispatchers.IO) {
         userRepository.currentUser.value?.let {
-            todoRepository.deleteAllTodos()
             todoRepository.refreshTodos(it.email)
             Timber.d("Collected non-null user in HomeViewModel")
         }

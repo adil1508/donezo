@@ -46,6 +46,7 @@ class TodoRepositoryImpl @Inject constructor(
                                 if (todoTask.isSuccessful) {
                                     Timber.d("Got ${todoTask.result?.documents?.size} todos for $email")
                                     GlobalScope.launch(Dispatchers.IO) {
+                                        deleteAllTodos()
                                         todoTask.result?.documents?.forEach { remoteTodoDoc ->
                                             remoteTodoDoc.getString(FIRESTORE_TODOS_MSG_KEY)
                                                 ?.let { remoteTodo ->
