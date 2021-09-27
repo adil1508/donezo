@@ -1,5 +1,9 @@
 package com.amian.donezo.repositories
 
+import com.amian.donezo.Constants.Companion.FIRESTORE_TODOS_MSG_KEY
+import com.amian.donezo.Constants.Companion.FIRESTORE_USERS_EMAIL_KEY
+import com.amian.donezo.Constants.Companion.FIRESTORE_USERS_TABLE
+import com.amian.donezo.Constants.Companion.FIRESTORE_USERS_TODOS_TABLE
 import com.amian.donezo.database.dao.TodoDao
 import com.amian.donezo.database.entities.Todo
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,7 +21,7 @@ class TodoRepositoryImpl @Inject constructor(
     firestore: FirebaseFirestore
 ) : TodoRepository {
 
-    private val usersCollection = firestore.collection("users")
+    private val usersCollection = firestore.collection(FIRESTORE_USERS_TABLE)
 
     override suspend fun addTodo(todo: Todo) {
         try {
@@ -32,24 +36,26 @@ class TodoRepositoryImpl @Inject constructor(
         todoDao.observeTodos(email = email).stateIn(GlobalScope, SharingStarted.Eagerly, listOf())
 
     override fun refreshTodos(email: String) {
-        usersCollection.whereEqualTo("email", email).limit(1).get()
+        usersCollection.whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, email).limit(1).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     it.result?.documents?.first()?.let { userDoc ->
-                        usersCollection.document(userDoc.id).collection("todos").get()
+                        usersCollection.document(userDoc.id).collection(FIRESTORE_USERS_TODOS_TABLE)
+                            .get()
                             .addOnCompleteListener { todoTask ->
                                 if (todoTask.isSuccessful) {
                                     Timber.d("Got ${todoTask.result?.documents?.size} todos for $email")
                                     GlobalScope.launch(Dispatchers.IO) {
                                         todoTask.result?.documents?.forEach { remoteTodoDoc ->
-                                            remoteTodoDoc.getString("msg")?.let { remoteTodo ->
-                                                todoDao.insertTodo(
-                                                    Todo(
-                                                        email = email,
-                                                        todo = remoteTodo
+                                            remoteTodoDoc.getString(FIRESTORE_TODOS_MSG_KEY)
+                                                ?.let { remoteTodo ->
+                                                    todoDao.insertTodo(
+                                                        Todo(
+                                                            email = email,
+                                                            todo = remoteTodo
+                                                        )
                                                     )
-                                                )
-                                            }
+                                                }
                                         }
                                     }
                                 }
@@ -64,14 +70,14 @@ class TodoRepositoryImpl @Inject constructor(
     override fun deleteAllTodos() = todoDao.deleteAllTodos()
 
     private fun addTodoToFirestore(todo: Todo) =
-        usersCollection.whereEqualTo("email", todo.email).limit(1).get()
+        usersCollection.whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, todo.email).limit(1).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     it.result?.documents?.first()?.let { userDoc ->
                         Timber.d("Successfully got document for user: ${todo.email}")
                         usersCollection.document(userDoc.id).collection("todos")
                             .add(
-                                hashMapOf("msg" to todo.todo)
+                                hashMapOf(FIRESTORE_TODOS_MSG_KEY to todo.todo)
                             ).addOnCompleteListener { lastTask ->
                                 if (lastTask.isSuccessful) {
                                     Timber.d("Successfully wrote todo to firestore")
