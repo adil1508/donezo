@@ -65,14 +65,17 @@ class HomeFragment : Fragment() {
         binding.recyclerview.adapter = TodoListAdapter()
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        userRepository.currentUser.value?.let {
-            val newstr = "All Donezo, " + it.name + "!"
-            binding.text.text = newstr
-        }
-
         viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
             Timber.d("The length of the todo list is: ${list.size}")
-            (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
+            if (list.isEmpty()) {
+                binding.recyclerview.visibility = View.GONE
+                binding.emptyList.root.visibility = View.VISIBLE
+            } else {
+                binding.recyclerview.visibility = View.VISIBLE
+                binding.emptyList.root.visibility = View.GONE
+                (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
+            }
+
         }
 
         binding.logoutButton.setOnClickListener {
