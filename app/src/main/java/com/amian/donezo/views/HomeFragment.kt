@@ -158,6 +158,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    enum class ListItemType {
+        EMPTY,
+        TODO
+    }
 
     sealed class ListItem(viewType: Int){
 
