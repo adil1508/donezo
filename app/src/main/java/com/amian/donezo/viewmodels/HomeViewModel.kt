@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.amian.donezo.repositories.TodoRepository
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -33,13 +34,16 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.currentUser.collectLatest {
                 if (it == null) authenticated.value = false
-                else {
-//                    // TODO: refresh the todos
-                    todoRepository.refreshTodos(it.email)
-                    Timber.d("Collected non-null user in HomeViewModel")
-                }
             }
         }
+        refreshTodos()
     }
 
+    private fun refreshTodos() = viewModelScope.launch(Dispatchers.IO) {
+        userRepository.currentUser.value?.let {
+            todoRepository.deleteAllTodos()
+            todoRepository.refreshTodos(it.email)
+            Timber.d("Collected non-null user in HomeViewModel")
+        }
+    }
 }
