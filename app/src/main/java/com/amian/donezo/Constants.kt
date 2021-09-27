@@ -6,5 +6,6 @@ class Constants {
         const val FIRESTORE_USERS_NAME_KEY = "name"
         const val FIRESTORE_USERS_EMAIL_KEY = "email"
         const val FIRESTORE_USERS_TODOS_TABLE = "todos"
+        const val FIRESTORE_TODOS_MSG_KEY = "msg"
     }
 }
