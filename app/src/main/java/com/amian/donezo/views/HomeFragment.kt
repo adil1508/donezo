@@ -157,4 +157,15 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
+    sealed class ListItem(viewType: Int){
+
+        class EmptyListItem(viewType: Int): ListItem(viewType)
+
+        class TodoListItem(viewType: Int, todo: Todo): ListItem(viewType)
+
+    }
+
+
 }
