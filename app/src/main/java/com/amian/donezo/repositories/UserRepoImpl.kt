@@ -24,6 +24,8 @@ class UserRepoImpl @Inject constructor(
     override val currentUser =
         userDao.observeCurrentUser().stateIn(GlobalScope, SharingStarted.Eagerly, null)
 
+    private val usersCollection = firestore.collection(FIRESTORE_USERS_TABLE)
+
     override suspend fun clearUser() = userDao.deleteUser()
 
     override suspend fun login(email: String, password: String) {
@@ -54,7 +56,7 @@ class UserRepoImpl @Inject constructor(
         userDao.insertUser(User(email = email, name = name))
 
     private suspend fun getUserInfoFromFirestore(email: String) {
-        firestore.collection(FIRESTORE_USERS_TABLE).whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, email)
+        usersCollection.whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, email)
             .limit(1).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -75,7 +77,7 @@ class UserRepoImpl @Inject constructor(
     }
 
     private suspend fun setUserInfoInFirestore(email: String, name: String) {
-        firestore.collection(FIRESTORE_USERS_TABLE)
+        usersCollection
             .add(hashMapOf(FIRESTORE_USERS_NAME_KEY to name, FIRESTORE_USERS_EMAIL_KEY to email))
             .addOnCompleteListener {
                 if (it.isSuccessful) {
