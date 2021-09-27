@@ -26,9 +26,9 @@ class HomeViewModel @Inject constructor(
         it.let {
             todoRepository.observeTodos(email = it.email)
         }
-    } ?: flowOf(listOf())
+    }
 
-    val todosLiveData = todos.asLiveData()
+    val todosLiveData = todos?.asLiveData()
 
     init {
         viewModelScope.launch {
