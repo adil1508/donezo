@@ -18,7 +18,7 @@ import javax.inject.Inject
 class UserRepoImpl @Inject constructor(
     private val userDao: UserDao,
     private val firebaseAuth: FirebaseAuth,
-    private val firestore: FirebaseFirestore
+    firestore: FirebaseFirestore
 ) : UserRepository {
 
     override val currentUser =
