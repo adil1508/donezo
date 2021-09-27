@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         binding.recyclerview.adapter = TodoListAdapter()
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.todosLiveData.observe(viewLifecycleOwner) { list ->
+        viewModel.todosLiveData?.observe(viewLifecycleOwner) { list ->
             Timber.d("The length of the todo list is: ${list.size}")
             if (list.isEmpty()) {
                 binding.recyclerview.visibility = View.GONE
