@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amian.donezo.ApplicationNavigationDirections
 import com.amian.donezo.R
 import com.amian.donezo.database.entities.Todo
+import com.amian.donezo.databinding.EmptyTodoListBinding
 import com.amian.donezo.databinding.FragmentHomeBinding
 import com.amian.donezo.databinding.ListItemTodoBinding
 import com.amian.donezo.repositories.UserRepository
@@ -65,17 +66,22 @@ class HomeFragment : Fragment() {
         binding.recyclerview.adapter = TodoListAdapter()
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.todosLiveData?.observe(viewLifecycleOwner) { list ->
-            Timber.d("The length of the todo list is: ${list.size}")
-            if (list.isEmpty()) {
-                binding.recyclerview.visibility = View.GONE
-                binding.emptyList.root.visibility = View.VISIBLE
-            } else {
-                binding.recyclerview.visibility = View.VISIBLE
-                binding.emptyList.root.visibility = View.GONE
-                (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
-            }
+//        viewModel.todosLiveData?.observe(viewLifecycleOwner) { list ->
+//            Timber.d("The length of the todo list is: ${list.size}")
+//            if (list.isEmpty()) {
+//                binding.recyclerview.visibility = View.GONE
+//                binding.emptyList.root.visibility = View.VISIBLE
+//            } else {
+//                binding.recyclerview.visibility = View.VISIBLE
+//                binding.emptyList.root.visibility = View.GONE
+//                (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
+//            }
+//
+//        }
 
+        viewModel.listItemsLiveData.observe(viewLifecycleOwner) { list ->
+            Timber.d("The length of the list to display is: ${list?.size}")
+            (binding.recyclerview.adapter as TodoListAdapter).submitList(list)
         }
 
         binding.logoutButton.setOnClickListener {
@@ -111,23 +117,40 @@ class HomeFragment : Fragment() {
     }
 
     private inner class TodoListAdapter :
-        ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(object : DiffUtil.ItemCallback<Todo>() {
+        ListAdapter<ListItem, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<ListItem>() {
 
-            override fun areItemsTheSame(oldItem: Todo, newItem: Todo) =
-                oldItem.id == newItem.id
+            override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem) =
 
-            override fun areContentsTheSame(oldItem: Todo, newItem: Todo) =
+                when (oldItem) {
+                    is ListItem.TodoListItem -> oldItem.todo.id == (newItem as? ListItem.TodoListItem)?.todo?.id
+                    is ListItem.EmptyListItem -> newItem is ListItem.EmptyListItem
+                }
+
+
+            override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem) =
                 oldItem == newItem
 
         }) {
 
+        override fun getItemViewType(position: Int) = getItem(position).viewType
+
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): TodoListAdapter.TodoViewHolder = TodoViewHolder(parent)
+        ): RecyclerView.ViewHolder =
+            when (ListItemType.values()[viewType]) {
+                ListItemType.TODO -> TodoViewHolder(parent)
+                ListItemType.EMPTY -> EmptyViewHolder(parent)
+            }
 
-        override fun onBindViewHolder(holder: TodoListAdapter.TodoViewHolder, position: Int) {
-            holder.bind(getItem(position))
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            getItem(position).let { item ->
+                when (item) {
+                    is ListItem.TodoListItem -> (holder as TodoViewHolder).bind(item)
+                    is ListItem.EmptyListItem -> (holder as EmptyViewHolder)
+                }
+            }
+
         }
 
         override fun getItemCount(): Int = currentList.size
@@ -138,23 +161,32 @@ class HomeFragment : Fragment() {
                 ListItemTodoBinding.inflate(layoutInflater, parent, false)
             )
 
-            fun bind(todo: Todo) {
-                binding.text.text = todo.todo
-                binding.checkbox.setOnClickListener { checkbox ->
-                    when ((checkbox as CheckBox).isChecked) {
-                        true -> {
-                            binding.text.apply {
-                                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            fun bind(todoListItem: ListItem.TodoListItem) {
+                todoListItem.todo.let {
+                    binding.text.text = it.todo
+                    binding.checkbox.setOnClickListener { checkbox ->
+                        when ((checkbox as CheckBox).isChecked) {
+                            true -> {
+                                binding.text.apply {
+                                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                                }
                             }
-                        }
-                        false -> {
-                            binding.text.apply {
-                                paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                            false -> {
+                                binding.text.apply {
+                                    paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+
+        private inner class EmptyViewHolder(private val binding: EmptyTodoListBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            constructor(parent: ViewGroup) : this(
+                EmptyTodoListBinding.inflate(layoutInflater, parent, false)
+            )
         }
     }
 
@@ -163,11 +195,11 @@ class HomeFragment : Fragment() {
         TODO
     }
 
-    sealed class ListItem(viewType: Int){
+    sealed class ListItem(val viewType: Int) {
 
-        class EmptyListItem(viewType: Int): ListItem(viewType)
+        class EmptyListItem : ListItem(ListItemType.EMPTY.ordinal)
 
-        class TodoListItem(viewType: Int, todo: Todo): ListItem(viewType)
+        class TodoListItem(val todo: Todo) : ListItem(ListItemType.TODO.ordinal)
 
     }
 
