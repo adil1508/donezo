@@ -150,10 +150,11 @@ class HomeFragment : Fragment() {
 
             fun bind(todoListItem: ListItem.TodoListItem) {
                 todoListItem.todo.let {
-                    binding.text.text = it.todo
+                    binding.todo = it
                     binding.checkbox.setOnClickListener { checkbox ->
                         when ((checkbox as CheckBox).isChecked) {
                             true -> {
+                                // TODO: need to mark this todo as 'done' in database
                                 binding.text.apply {
                                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                                 }
