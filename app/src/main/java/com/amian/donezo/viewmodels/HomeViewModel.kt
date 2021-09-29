@@ -9,6 +9,7 @@ import com.amian.donezo.repositories.UserRepository
 import com.amian.donezo.views.HomeFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -32,7 +33,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private val listItems = flow {
-        todos.collectLatest {
+        todos.collect {
             emit(
                 if (it.isNullOrEmpty()) listOf(HomeFragment.ListItem.EmptyListItem())
                 else it.map { item -> HomeFragment.ListItem.TodoListItem(item) }
