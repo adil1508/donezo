@@ -5,14 +5,14 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface TodoRepository {
 
-	suspend fun addTodo(todo: Todo)
+    suspend fun addTodo(todo: Todo)
 
-	fun observeTodos(email: String): StateFlow<List<Todo>>
+    fun observeTodos(email: String): StateFlow<List<Todo>>
 
-	fun refreshTodos(email: String)
+    fun refreshTodos(email: String)
 
-	suspend fun markTodoAsDone(email: String, id: Long, done: Boolean)
+    suspend fun markTodoAsDone(email: String, id: Long, done: Boolean)
 
-	fun deleteAllTodos()
+    fun deleteAllTodos()
 
 }
