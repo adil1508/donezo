@@ -151,19 +151,30 @@ class HomeFragment : Fragment() {
             fun bind(todoListItem: ListItem.TodoListItem) {
                 todoListItem.todo.let {
                     binding.todo = it
+                    when (it.done) {
+                        true -> {
+                            binding.text.apply {
+                                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                            }
+                        }
+                        false -> {
+                            binding.text.apply {
+                                paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                            }
+                        }
+                    }
                     binding.checkbox.setOnClickListener { checkbox ->
                         when ((checkbox as CheckBox).isChecked) {
-                            true -> {
-                                // TODO: need to mark this todo as 'done' in database
-                                binding.text.apply {
-                                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                                }
-                            }
-                            false -> {
-                                binding.text.apply {
-                                    paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                                }
-                            }
+                            true -> viewModel.markTodoDone(
+                                email = it.email,
+                                todoId = it.id,
+                                done = true
+                            )
+                            false -> viewModel.markTodoDone(
+                                email = it.email,
+                                todoId = it.id,
+                                done = false
+                            )
                         }
                     }
                 }
