@@ -22,7 +22,7 @@ class AddTodoViewModel @Inject constructor(
 	fun addTodo() = userRepo.currentUser.value?.let { user ->
 		todoText.value.takeIf { !it.isNullOrBlank() }?.let { todoTextVal ->
 			GlobalScope.launch(Dispatchers.IO) {
-				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal))
+				todoRepo.addTodo(Todo(email = user.email, todo = todoTextVal, done = false))
 			}
 			// reset it's value
 			todoText.value = ""
