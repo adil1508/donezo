@@ -33,12 +33,42 @@ class TodoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun markTodoAsDone(id: Long, done: Boolean) {
-        /*
-        * TODO:
-        *   - mark it as done in Firestore
-        */
+    override suspend fun markTodoAsDone(email: String, id: Long, done: Boolean) {
         todoDao.markTodoDone(id = id, done = done)
+        markTodoAsDoneInFirestore(email = email, id = id, done = done)
+    }
+
+    private fun markTodoAsDoneInFirestore(email: String, id: Long, done: Boolean) {
+
+        usersCollection
+            .whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, email)
+            .limit(1)
+            .get()
+            .addOnCompleteListener { userDocTask ->
+                if (userDocTask.isSuccessful) {
+                    userDocTask.result?.documents?.first()?.let { userDoc ->
+                        usersCollection
+                            .document(userDoc.id)
+                            .collection(FIRESTORE_USERS_TODOS_TABLE)
+                            .whereEqualTo("id", id)
+                            .limit(1)
+                            .get().addOnCompleteListener { todoDocumentTask ->
+                                if (todoDocumentTask.isSuccessful) {
+                                    todoDocumentTask.result?.documents?.first()?.reference?.update(
+                                        "done",
+                                        done
+                                    )
+                                } else {
+                                    Timber.d("Could not fetch todo document for user with email $email")
+                                }
+                            }
+                    }
+                } else {
+                    Timber.d("Could not fetch user for $email")
+                }
+            }
+
+
     }
 
     override fun observeTodos(email: String): StateFlow<List<Todo>> =
