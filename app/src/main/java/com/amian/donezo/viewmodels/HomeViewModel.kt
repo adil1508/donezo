@@ -58,4 +58,10 @@ class HomeViewModel @Inject constructor(
             Timber.d("Collected non-null user in HomeViewModel")
         }
     }
+
+    fun markTodoDone(email: String, todoId: Long, done: Boolean) =
+        viewModelScope.launch(Dispatchers.IO) {
+            todoRepository.markTodoAsDone(email = email, id = todoId, done = done)
+        }
+
 }
