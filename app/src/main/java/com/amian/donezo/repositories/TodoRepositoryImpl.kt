@@ -57,16 +57,16 @@ class TodoRepositoryImpl @Inject constructor(
                                     GlobalScope.launch(Dispatchers.IO) {
                                         deleteAllTodos()
                                         todoTask.result?.documents?.forEach { remoteTodoDoc ->
-                                            remoteTodoDoc.getString(FIRESTORE_TODOS_MSG_KEY)
-                                                ?.let { remoteTodo ->
-                                                    todoDao.insertTodo(
-                                                        Todo(
-                                                            email = email,
-                                                            todo = remoteTodo,
-                                                            done = remoteTodoDoc.getBoolean("done") ?: false
-                                                        )
-                                                    )
-                                                }
+                                            todoDao.insertTodo(
+                                                Todo(
+                                                    id = remoteTodoDoc.getLong("id") ?: 0,
+                                                    email = email,
+                                                    todo = remoteTodoDoc.getString(
+                                                        FIRESTORE_TODOS_MSG_KEY
+                                                    ) ?: "",
+                                                    done = remoteTodoDoc.getBoolean("done") ?: false
+                                                )
+                                            )
                                         }
                                     }
                                 }
@@ -88,7 +88,11 @@ class TodoRepositoryImpl @Inject constructor(
                         Timber.d("Successfully got document for user: ${todo.email}")
                         usersCollection.document(userDoc.id).collection("todos")
                             .add(
-                                hashMapOf("id" to todo.id, FIRESTORE_TODOS_MSG_KEY to todo.todo, "done" to todo.done)
+                                hashMapOf(
+                                    "id" to todo.id,
+                                    FIRESTORE_TODOS_MSG_KEY to todo.todo,
+                                    "done" to todo.done
+                                )
                             ).addOnCompleteListener { lastTask ->
                                 if (lastTask.isSuccessful) {
                                     Timber.d("Successfully wrote todo to firestore")

@@ -13,6 +13,10 @@ data class Todo(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
+    constructor(id: Long, email: String, todo: String, done: Boolean) : this(email, todo, done) {
+        this.id = id
+    }
+
     companion object {
         const val TODO_TABLE = "Todos"
     }
