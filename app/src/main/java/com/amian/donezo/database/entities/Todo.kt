@@ -8,7 +8,7 @@ import com.amian.donezo.database.entities.Todo.Companion.TODO_TABLE
 data class Todo(
     val email: String,
     val todo: String,
-    val done: Boolean = false
+    val done: Boolean
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
