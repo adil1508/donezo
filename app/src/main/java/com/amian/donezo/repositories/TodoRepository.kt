@@ -11,6 +11,8 @@ interface TodoRepository {
 
 	fun refreshTodos(email: String)
 
+	suspend fun markTodoAsDone(id: Long, done: Boolean)
+
 	fun deleteAllTodos()
 
 }

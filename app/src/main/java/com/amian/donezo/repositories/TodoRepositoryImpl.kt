@@ -25,11 +25,20 @@ class TodoRepositoryImpl @Inject constructor(
 
     override suspend fun addTodo(todo: Todo) {
         try {
-            todoDao.insertTodo(todo)
+            val todoId = todoDao.insertTodo(todo)
+            todo.id = todoId
+            addTodoToFirestore(todo)
         } catch (t: Throwable) {
             Timber.e(t)
         }
-        addTodoToFirestore(todo)
+    }
+
+    override suspend fun markTodoAsDone(id: Long, done: Boolean) {
+        /*
+        * TODO:
+        *   - mark it as done in Firestore
+        */
+        todoDao.markTodoDone(id = id, done = done)
     }
 
     override fun observeTodos(email: String): StateFlow<List<Todo>> =
@@ -53,7 +62,8 @@ class TodoRepositoryImpl @Inject constructor(
                                                     todoDao.insertTodo(
                                                         Todo(
                                                             email = email,
-                                                            todo = remoteTodo
+                                                            todo = remoteTodo,
+                                                            done = remoteTodoDoc.getBoolean("done") ?: false
                                                         )
                                                     )
                                                 }
@@ -78,7 +88,7 @@ class TodoRepositoryImpl @Inject constructor(
                         Timber.d("Successfully got document for user: ${todo.email}")
                         usersCollection.document(userDoc.id).collection("todos")
                             .add(
-                                hashMapOf(FIRESTORE_TODOS_MSG_KEY to todo.todo)
+                                hashMapOf("id" to todo.id, FIRESTORE_TODOS_MSG_KEY to todo.todo, "done" to todo.done)
                             ).addOnCompleteListener { lastTask ->
                                 if (lastTask.isSuccessful) {
                                     Timber.d("Successfully wrote todo to firestore")
