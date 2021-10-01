@@ -38,8 +38,7 @@ class TodoRepositoryImpl @Inject constructor(
         markTodoAsDoneInFirestore(email = email, id = id, done = done)
     }
 
-    private fun markTodoAsDoneInFirestore(email: String, id: Long, done: Boolean) {
-
+    private fun markTodoAsDoneInFirestore(email: String, id: Long, done: Boolean) =
         usersCollection
             .whereEqualTo(FIRESTORE_USERS_EMAIL_KEY, email)
             .limit(1)
@@ -68,8 +67,6 @@ class TodoRepositoryImpl @Inject constructor(
                 }
             }
 
-
-    }
 
     override fun observeTodos(email: String): StateFlow<List<Todo>> =
         todoDao.observeTodos(email = email).stateIn(GlobalScope, SharingStarted.Eagerly, listOf())
