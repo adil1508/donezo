@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Todos"
-                app:navigationIcon="@drawable/ic_hamburger_menu" />
+                app:navigationIcon="@drawable/ic_hamburger_menu"
+                app:title="Todos" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,12 +36,10 @@
             app:navGraph="@navigation/donezo_navigation_graph" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>
