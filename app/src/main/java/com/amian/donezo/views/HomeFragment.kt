@@ -60,6 +60,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,17 +79,11 @@ class HomeFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             lifecycleScope.launch { userRepository.clearUser() }
         }
-
-        with(requireActivity() as AppCompatActivity) {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        }
-
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
         inflater.inflate(R.menu.home_menu, menu)
     }
 
