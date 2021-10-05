@@ -27,20 +27,23 @@ class DonezoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        // Setup navigation controller
-        val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-        appBarConfig = AppBarConfiguration(setOf(R.id.homeFragment), binding.drawerLayout)
-        setupActionBarWithNavController(navController, appBarConfig)
-        binding.navView.setupWithNavController(navController)
-
+        setupNavController()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navigationController = findNavController(R.id.nav_host_fragment)
         return navigationController.navigateUp(appBarConfig) || super.onSupportNavigateUp()
+    }
+
+    private fun setupNavController() {
+        setSupportActionBar(binding.toolbar)
+
+        val navController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+        appBarConfig = AppBarConfiguration(setOf(R.id.homeFragment), binding.drawerLayout)
+        setupActionBarWithNavController(navController, appBarConfig)
+        binding.navView.setupWithNavController(navController)
+
     }
 
 }
