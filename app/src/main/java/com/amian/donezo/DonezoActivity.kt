@@ -30,10 +30,9 @@ class DonezoActivity : AppCompatActivity() {
         setupNavController()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navigationController = findNavController(R.id.nav_host_fragment)
-        return navigationController.navigateUp(appBarConfig) || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp() =
+        findNavController(R.id.nav_host_fragment).navigateUp(appBarConfig) || super.onSupportNavigateUp()
+
 
     private fun setupNavController() {
         setSupportActionBar(binding.toolbar)
