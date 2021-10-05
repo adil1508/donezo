@@ -2,6 +2,7 @@ package com.amian.donezo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -45,5 +46,11 @@ class DonezoActivity : AppCompatActivity() {
 		binding.navView.setupWithNavController(navController)
 
 	}
+
+	fun lockDrawer(locked: Boolean) = when (locked) {
+		true -> binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+		false -> binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+	}
+
 
 }
