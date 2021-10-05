@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.amian.donezo.DonezoActivity
 import com.amian.donezo.databinding.FragmentOnboardingBinding
 
 class OnboardingFragment : Fragment() {
@@ -22,6 +23,7 @@ class OnboardingFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentOnboardingBinding.inflate(inflater, container, false)
+		(requireActivity() as DonezoActivity).lockDrawer(locked = true)
 		return binding.root
 	}
 
