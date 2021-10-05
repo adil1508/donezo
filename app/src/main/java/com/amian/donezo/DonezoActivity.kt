@@ -16,6 +16,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DonezoActivity : AppCompatActivity() {
 
+    // Injecting this here to start the user flow
     @Inject
     lateinit var userRepository: UserRepository
 
