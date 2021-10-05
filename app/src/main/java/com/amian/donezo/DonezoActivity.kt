@@ -19,9 +19,9 @@ class DonezoActivity : AppCompatActivity() {
     @Inject
     lateinit var userRepository: UserRepository
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
-    lateinit var appBarConfig: AppBarConfiguration
+    private lateinit var appBarConfig: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
