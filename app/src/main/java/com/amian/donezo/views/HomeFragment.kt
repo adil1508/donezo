@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amian.donezo.ApplicationNavigationDirections
+import com.amian.donezo.DonezoActivity
 import com.amian.donezo.R
 import com.amian.donezo.database.entities.Todo
 import com.amian.donezo.databinding.EmptyTodoListBinding
@@ -57,6 +58,7 @@ class HomeFragment : Fragment() {
 		}
 
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
+		(requireActivity() as DonezoActivity).lockDrawer(locked = false)
 		return binding.root
 	}
 
