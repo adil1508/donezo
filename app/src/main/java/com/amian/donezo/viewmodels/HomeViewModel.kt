@@ -20,48 +20,48 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val todoRepository: TodoRepository
+	private val userRepository: UserRepository,
+	private val todoRepository: TodoRepository
 ) : ViewModel() {
 
-    val authenticated = MutableLiveData(true)
+	val authenticated = MutableLiveData(true)
 
-    private val todos = userRepository.currentUser.flatMapLatest {
-        it?.let {
-            todoRepository.observeTodos(email = it.email)
-        } ?: flowOf(listOf())
-    }
+	private val todos = userRepository.currentUser.flatMapLatest {
+		it?.let {
+			todoRepository.observeTodos(email = it.email)
+		} ?: flowOf(listOf())
+	}
 
-    private val listItems = flow {
-        todos.collect {
-            emit(
-                if (it.isNullOrEmpty()) listOf(HomeFragment.ListItem.EmptyListItem())
-                else it.map { item -> HomeFragment.ListItem.TodoListItem(item) }
-            )
-        }
-    }
+	private val listItems = flow {
+		todos.collect {
+			emit(
+				if (it.isNullOrEmpty()) listOf(HomeFragment.ListItem.EmptyListItem())
+				else it.map { item -> HomeFragment.ListItem.TodoListItem(item) }
+			)
+		}
+	}
 
-    val listItemsLiveData = listItems.asLiveData()
+	val listItemsLiveData = listItems.asLiveData()
 
-    init {
-        viewModelScope.launch {
-            userRepository.currentUser.collectLatest {
-                if (it == null) authenticated.value = false
-            }
-        }
-        refreshTodos()
-    }
+	init {
+		viewModelScope.launch {
+			userRepository.currentUser.collectLatest {
+				if (it == null) authenticated.value = false
+			}
+		}
+		refreshTodos()
+	}
 
-    private fun refreshTodos() = viewModelScope.launch(Dispatchers.IO) {
-        userRepository.currentUser.value?.let {
-            todoRepository.refreshTodos(it.email)
-            Timber.d("Collected non-null user in HomeViewModel")
-        }
-    }
+	private fun refreshTodos() = viewModelScope.launch(Dispatchers.IO) {
+		userRepository.currentUser.value?.let {
+			todoRepository.refreshTodos(it.email)
+			Timber.d("Collected non-null user in HomeViewModel")
+		}
+	}
 
-    fun markTodoDone(email: String, todoId: Long, done: Boolean) =
-        viewModelScope.launch(Dispatchers.IO) {
-            todoRepository.markTodoAsDone(email = email, id = todoId, done = done)
-        }
+	fun markTodoDone(email: String, todoId: Long, done: Boolean) =
+		viewModelScope.launch(Dispatchers.IO) {
+			todoRepository.markTodoAsDone(email = email, id = todoId, done = done)
+		}
 
 }
