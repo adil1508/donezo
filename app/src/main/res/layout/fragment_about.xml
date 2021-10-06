@@ -5,7 +5,7 @@
     <data>
         <variable
             name="versionHandler"
-            type="com.amian.donezo.views.versionHandler" />
+            type="com.amian.donezo.views.VersionHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
