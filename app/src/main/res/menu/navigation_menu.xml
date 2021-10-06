@@ -6,6 +6,6 @@
         android:id="@+id/homeFragment"
         android:title="Todos" />
     <item
-        android:id="@+id/settingsFragment"
-        android:title="Settings" />
+        android:id="@+id/userDetailsFragment"
+        android:title="Profile" />
 </menu>

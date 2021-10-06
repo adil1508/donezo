@@ -81,6 +81,10 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/action_unauthenticated"
             app:popUpToInclusive="true" />
+        <fragment
+            android:id="@+id/userDetailsFragment"
+            android:name="com.amian.donezo.views.UserDetailsFragment"
+            android:label="UserDetailsFragment" />
     </navigation>
 
 </navigation>
