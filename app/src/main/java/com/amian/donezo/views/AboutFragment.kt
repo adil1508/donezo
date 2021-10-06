@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.amian.donezo.databinding.FragmentAboutBinding
 
-class AboutFragment : Fragment(), versionHandler {
+class AboutFragment : Fragment(), VersionHandler {
 
 	private var _binding: FragmentAboutBinding? = null
 	private val binding: FragmentAboutBinding
@@ -21,6 +22,9 @@ class AboutFragment : Fragment(), versionHandler {
 	): View {
 		_binding = FragmentAboutBinding.inflate(inflater, container, false)
 		binding.versionHandler = this
+		(requireActivity() as AppCompatActivity).supportActionBar?.let {
+			it.title = "About"
+		}
 		return binding.root
 	}
 
@@ -34,6 +38,6 @@ class AboutFragment : Fragment(), versionHandler {
 
 }
 
-interface versionHandler {
+interface VersionHandler {
 	fun getVersionCode(context: Context): String
 }
