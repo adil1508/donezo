@@ -83,9 +83,9 @@ class HomeFragment : Fragment() {
 			(binding.recyclerview.adapter as TodoListAdapter).submitList(list)
 		}
 
-		binding.logoutButton.setOnClickListener {
-			lifecycleScope.launch { userRepository.clearUser() }
-		}
+//		binding.logoutButton.setOnClickListener {
+//			lifecycleScope.launch { userRepository.clearUser() }
+//		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
