@@ -85,6 +85,10 @@
             android:id="@+id/userDetailsFragment"
             android:name="com.amian.donezo.views.UserDetailsFragment"
             android:label="UserDetailsFragment" />
+        <fragment
+            android:id="@+id/aboutFragment"
+            android:name="com.amian.donezo.views.AboutFragment"
+            android:label="AboutFragment" />
     </navigation>
 
 </navigation>
