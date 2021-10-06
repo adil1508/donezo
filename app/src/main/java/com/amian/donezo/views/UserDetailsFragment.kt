@@ -1,0 +1,46 @@
+package com.amian.donezo.views
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
+import com.amian.donezo.databinding.FragmentUserDetailsBinding
+import com.amian.donezo.repositories.UserRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class UserDetailsFragment : Fragment() {
+
+	@Inject
+	lateinit var userRepository: UserRepository
+
+	private val currentUser by lazy {
+		userRepository.currentUser.asLiveData()
+	}
+
+	private var _binding: FragmentUserDetailsBinding? = null
+	private val binding: FragmentUserDetailsBinding
+		get() = _binding!!
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentUserDetailsBinding.inflate(inflater, container, false)
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		currentUser.observe(viewLifecycleOwner) {
+			it?.let { user ->
+				binding.user = user
+			}
+		}
+	}
+}
