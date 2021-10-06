@@ -4,8 +4,10 @@
     android:layout_height="match_parent">
     <item
         android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_final_onboarding"
         android:title="Todos" />
     <item
         android:id="@+id/userDetailsFragment"
+        android:icon="@drawable/ic_person"
         android:title="Profile" />
 </menu>
