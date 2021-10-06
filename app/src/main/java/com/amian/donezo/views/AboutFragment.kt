@@ -1,5 +1,6 @@
 package com.amian.donezo.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.amian.donezo.databinding.FragmentAboutBinding
 
-class AboutFragment: Fragment(){
+class AboutFragment: Fragment(), versionHandler{
 
 	private var _binding: FragmentAboutBinding? = null
 	private val binding: FragmentAboutBinding
@@ -26,4 +27,11 @@ class AboutFragment: Fragment(){
 		super.onDestroy()
 		_binding = null
 	}
+
+	override fun getVersionCode(context: Context) = context.packageManager.getPackageInfo(context.packageName, 0).longVersionCode
+
+}
+
+interface versionHandler {
+	fun getVersionCode(context: Context): Long
 }
