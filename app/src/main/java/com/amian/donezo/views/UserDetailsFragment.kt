@@ -1,5 +1,6 @@
 package com.amian.donezo.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,10 +10,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.amian.donezo.DonezoActivity
 import com.amian.donezo.R
 import com.amian.donezo.databinding.FragmentUserDetailsBinding
 import com.amian.donezo.repositories.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -56,6 +61,10 @@ class UserDetailsFragment : Fragment() {
 			it.title = "Profile"
 		}
 
+		binding.logoutButton.setOnClickListener {
+			lifecycleScope.launch { userRepository.clearUser() }
+			startActivity(Intent.makeRestartActivityTask(requireActivity().componentName))
+		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
