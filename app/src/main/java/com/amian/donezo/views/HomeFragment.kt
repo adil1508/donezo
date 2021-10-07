@@ -82,10 +82,6 @@ class HomeFragment : Fragment() {
 			Timber.d("The length of the list to display is: ${list?.size}")
 			(binding.recyclerview.adapter as TodoListAdapter).submitList(list)
 		}
-
-//		binding.logoutButton.setOnClickListener {
-//			lifecycleScope.launch { userRepository.clearUser() }
-//		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
