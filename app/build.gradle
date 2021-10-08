@@ -9,6 +9,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\Workspace\\donezo\\donezo_keystore.jks')
+            storePassword 'G*oG68x0*XlL#SDu'
+            keyAlias 'donezo_key'
+            keyPassword 'G*oG68x0*XlL#SDu'
+        }
+    }
     compileSdk 30
 
     defaultConfig {
@@ -25,6 +33,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
