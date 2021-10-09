@@ -42,6 +42,15 @@ android {
     compileSdkVersion 31
     buildToolsVersion '31.0.0'
 
+    signingConfigs {
+        release {
+            storeFile file('D:\\Workspace\\donezo\\donezo_keystore.jks')
+            storePassword 'G*oG68x0*XlL#SDu'
+            keyAlias 'donezo_key'
+            keyPassword 'G*oG68x0*XlL#SDu'
+        }
+    }
+
 }
 
 dependencies {
