@@ -11,3 +11,4 @@
 local.properties
 .gitsecret/keys/random_seed
 donezo_keystore.jks
+signing_configs.txt
